@@ -1,0 +1,8 @@
+{
+  "name": "Rifts Character Sheet",
+  "description": "A python flask app for keeping track of Rifts characters",
+  "image": "heroku/python",
+  "repository": "none",
+  "keywords": ["python", "flask" ],
+  "addons": [ "heroku-postgresql" ]
+}
