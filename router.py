@@ -6,6 +6,10 @@ app = Flask(__name__)
 def hello_world():
     return "hello"
 
+@app.route('/signin')
+def signin():
+    return render_template('signin.html')
+
 @app.route('/<name>')
 def index(name=None):
     return render_template('index.html', name=name)
