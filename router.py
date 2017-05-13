@@ -1,10 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, session, redirect, url_for, request
 import psycopg2
 app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return "hello"
+    if 'username' in session:
+       return "Logged in as: %s" % session['username']
+    return "Not logged in."
 
 @app.route('/signin')
 def signin():
@@ -12,7 +14,7 @@ def signin():
 
 @app.route('/<name>')
 def index(name=None):
-    return render_template('index.html', name=name)
+    return render_template('test.html', username=name)
 
 @app.route('/dbtest')
 def dbtest():
