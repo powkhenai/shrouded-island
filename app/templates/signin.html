@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <link href="/static/signin.css" rel="stylesheet">
+{% endblock %}
+   
+{% block content %}
+  <form class="form-signin" action="" method="post" name="login">
+      {{ form.hidden_tag() }}
+    {% for error in form.username.errors %}
+	<div class="alert alert-danger" role="alert">Malformed login info.</div>
+    {% endfor %}
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <label for="inputUser" class="sr-only">UserName</label>
+    {{ form.username() }}
+    <label for="inputPassword" class="sr-only">Password</label>
+    {{ form.password() }}
+    <div class="checkbox">
+	<label>
+	{{ form.remember_me }} Remember Me
+	</label>
+    </div>
+    <!--
+    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    -->
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  </form>
+{% endblock %}

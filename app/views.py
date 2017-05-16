@@ -1,6 +1,7 @@
-from flask import Flask, render_template, session, redirect, url_for, request
+from app import app
+from flask import Flask, render_template, session, redirect, url_for, request, flash
 import psycopg2
-app = Flask(__name__)
+from .forms import LoginForm
 
 @app.route('/')
 def hello_world():
@@ -8,9 +9,14 @@ def hello_world():
        return "Logged in as: %s" % session['username']
     return "Not logged in."
 
-@app.route('/signin')
+@app.route('/signin', methods=['GET', 'POST'])
 def signin():
-    return render_template('signin.html')
+    form = LoginForm()
+    if form.validate_on_submit():
+        flash('Login requested for User="%s", Password="%s", remember_me=%s' % 
+                (form.username.data, form.password.data, str(form.remember_me.data)))
+        return redirect('/index')
+    return render_template('signin.html', title='Sign In', form=form)
 
 @app.route('/<name>')
 def index(name=None):
