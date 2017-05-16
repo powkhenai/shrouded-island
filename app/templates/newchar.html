@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <link href="/static/signin.css" rel="stylesheet">
+{% endblock %}
+   
+{% block content %}
+  <form class="form-signin" action="" method="post" name="newchar">
+      {{ form.hidden_tag() }}
+    {% for error in form.first_name.errors %}
+	<div class="alert alert-danger" role="alert">Malformed login info.</div>
+    {% endfor %}
+    <h2 class="form-signin-heading">New Character</h2>
+    <label for="fname" class="sr-only">First Name</label>
+    {{ form.first_name(class_="form-control", placeholder="First Name") }}
+    <label for="password" class="sr-only">Password</label>
+    {{ form.last_name(class_="form-control", placeholder="Last Name") }}
+    {{ form.height(class_="form-control", placeholder="Height") }}
+    {{ form.weight(class_="form-control", placeholder="Weight") }}
+    {{ form.age(class_="form-control", placeholder="Age") }}
+    {{ form.hp(class_="form-control", placeholder="HP") }}
+    {{ form.exp(class_="form-control", placeholder="EXP") }}
+    {{ form.iq(class_="form-control", placeholder="I.Q.") }}
+    {{ form.me(class_="form-control", placeholder="M.E.") }}
+    {{ form.ma(class_="form-control", placeholder="M.A.") }}
+    {{ form.ps(class_="form-control", placeholder="P.S.") }}
+    {{ form.pp(class_="form-control", placeholder="P.P.") }}
+    {{ form.pe(class_="form-control", placeholder="P.E.") }}
+    {{ form.pb(class_="form-control", placeholder="P.B.") }}
+    {{ form.spd(class_="form-control", placeholder="SPD") }}
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
+  </form>
+{% endblock %}

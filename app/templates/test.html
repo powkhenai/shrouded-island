@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Rifts Character Manager App</h1>
+    <p>
+	Welcome {{ name }} 
+    </p>
+    {% for char in characters %}
+    <div class="panel panel-primary">
+	<div class="panel-heading">
+	    {{ char.first_name }} {{ char.last_name }}
+	</div>
+	<div class="panel-body">
+	    <div class="row">
+		<div class="col-xs-4 col-md-6">
+		    EXP: {{ char.exp }} HP: {{ char.hp }}
+		</div>
+		<div class="col-xs-2 col-md-2">
+		    <form action="/character/{{ char.id }}" method="get">
+			<button type="submit" class="btn btn-primary">Open</button>
+		    </form>
+		</div>
+		<div class="col-xs-3 col-md-3"></div>
+		<div class="col-xs-1 col-md-1">
+		    <form action="/deletecharacter/{{ char.id }}" method="get">
+			<button type="submit" class="btn btn-danger" aria-label="Delete">
+			    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+			</button>
+		    </form>
+		</div>
+	    </div>
+	</div>
+    </div>
+    {% endfor %}
+    <form action="/new_character" method="get">
+	<button type="submit" class="btn btn-success">New Character</button>
+    </form>
+{% endblock %}
