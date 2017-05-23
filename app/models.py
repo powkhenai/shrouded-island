@@ -6,6 +6,24 @@ class User(db.Model):
     login_token = db.Column(db.String(255), index=True, unique=True)
     chars = db.relationship('Character', backref='player', lazy='dynamic')
 
+    @property
+    def is_authenticated(self):
+        return True
+    
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        try:
+            return unicode(self.id)
+        except NameError:
+            return str(self.id)
+
     def __repr__(self):
         return '<User %r>' % (self.name)
 
