@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export FLASK_APP="app/views.py"
+export DATABASE_URL='postgres://guvtlvmrcrycgj:2fd7a74f97b55291f350f601979e4826be99a2f6e68f3c579d3644426fb6329d@ec2-75-101-142-182.compute-1.amazonaws.com:5432/da3bngkdmd0kr1'
+
+export PORT=5000
+flask run --host=0.0.0.0 --port=$PORT
