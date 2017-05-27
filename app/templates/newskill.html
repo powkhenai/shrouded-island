@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <link href="/static/signin.css" rel="stylesheet">
+{% endblock %}
+   
+{% block content %}
+  <form class="form-signin" action="" method="post" name="newchar">
+      {{ form.hidden_tag() }}
+    <h2 class="form-signin-heading">New Skill Entry</h2>
+    {{ form.name(class_="form-control", placeholder="Name") }}
+    {{ form.description(class_="form-control", placeholder="Description") }}
+    {{ form.category(class_="form-control") }}
+    {{ form.base(class_="form-control", placeholder="Base %") }}
+    {{ form.per_level(class_="form-control", placeholder="Per Level %") }}
+    
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Add Skill</button>
+  </form>
+{% endblock %}

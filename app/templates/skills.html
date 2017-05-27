@@ -2,16 +2,14 @@
 
 {% block content %}
     <ul class="nav nav-tabs">
-	<li role="presentation" class="active"><a href="#">Main</a></li>
-	<li role="presentation"><a href="/character/{{ character.id }}/skills">Skills</a></li>
+	<li role="presentation"><a href="/character/{{ character.id }}">Main</a></li>
+	<li role="presentation" class="active"><a href="#">Skills</a></li>
 	<li role="presentation"><a href="#">Inventory</a></li>
     </ul>
     <div class="row">
 	<div class="col-xs-12 col-md-8 well">
 	    <h2>{{ character.first_name }} {{ character.last_name }}</h2>
-	    <b>Race: </b> {{ character.race }}
-	    <br>
-	    <b>Occupation: </b> {{ character.occupation }}
+	    <b>Skills: </b> {{ character.race }}
 	</div>
 	<div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
     </div>

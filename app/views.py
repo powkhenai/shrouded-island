@@ -2,8 +2,8 @@ import hashlib
 from app import app, db, lm
 from flask import Flask, render_template, session, redirect, url_for, request, flash, g
 from flask_login import login_user, logout_user, current_user, login_required
-from .forms import LoginForm, NewCharForm
-from .models import User, Character
+from .forms import LoginForm, NewCharForm, NewSkillForm
+from .models import User, Character, Skill
 
 @app.before_request
 def before_request():
@@ -12,9 +12,7 @@ def before_request():
 
 @app.route('/')
 def hello_world():
-    if g.user:
-       return "Logged in as: %s" % g.user
-    return "Not logged in."
+    return redirect(url_for('index'))
 
 @app.route('/signin', methods=['GET', 'POST'])
 def signin():
@@ -49,7 +47,28 @@ def show_char(char_id):
     print character
     if character.player != user:
         return redirect(url_for('index'))
-    return render_template('char_sheet.html', user=user, character=character)
+    return render_template('char_sheet.html', name=user.name, character=character)
+
+@app.route('/character/<char_id>/skills')
+@login_required
+def skill_page(char_id):
+    user = g.user
+    character = Character.query.get(char_id)
+    if character.player != user:
+        return redirect(url_for('index'))
+    return render_template('skills.html', name=user.name, character=character)
+
+
+@app.route('/delete_character/<char_id>')
+@login_required
+def rmChar(char_id):
+    user = g.user
+    character = Character.query.get(char_id)
+    if character.player != user:
+        return redirect(url_for('index'))
+    db.session.delete(character)
+    db.session.commit()
+    return redirect(url_for('index'))
 
 @app.route('/new_character', methods=['GET', 'POST'])
 @login_required
@@ -71,6 +90,20 @@ def newChar():
         flash('%s %s %d' % (form.first_name.data, form.last_name.data, form.age.data))
         return redirect(url_for('index'))
     return render_template('newchar.html', title='New Character', form=form)
+
+@app.route('/newskill', methods=['GET', 'POST'])
+@login_required
+def newSkill():
+    user = g.user
+    form = NewSkillForm()
+    if form.validate_on_submit():
+        skill = Skill(name=form.name.data, description=form.description.data, category=form.category.data,
+                base=form.base.data, per_level=form.per_level.data)
+        db.session.add(skill)
+        db.session.commit()
+        flash("Skill: %s added to the system" % (skill.name))
+        #return redirect(url_for('index'))
+    return render_template('newskill.html', title='New Skill', name=user.name, form=form)
 
 @app.route('/logout')
 def logout():
