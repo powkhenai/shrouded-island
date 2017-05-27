@@ -21,14 +21,42 @@
 		</div>
 		<div class="col-xs-3 col-md-3"></div>
 		<div class="col-xs-1 col-md-1">
-		    <form action="/deletecharacter/{{ char.id }}" method="get">
+		    <!--
+		    <form action="/delete_character/{{ char.id }}" method="get">
 			<button type="submit" class="btn btn-danger" aria-label="Delete">
 			    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 			</button>
 		    </form>
+		    -->
+		    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del{{ char.first_name }}">
+			<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+		    </button>
 		</div>
 	    </div>
 	</div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="del{{ char.first_name }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	      <span aria-hidden="true">&times;</span>
+	    </button>
+	    <h4 class="modal-title" id="myModalLabel">Delete {{ char.first_name }}?</h4>
+	  </div>
+	  <div class="modal-body">
+	      Are you really sure that you want to erase {{ char.first_name }} {{ char.last_name }} from existence?
+	      They won't be able to return, no matter how much you beg Jake, their stats will be lost to the ether...
+	  </div>
+	  <div class="modal-footer">
+	    <form action="/delete_character/{{ char.id }}" method="get">
+		<button type="submit" class="btn btn-danger">Oust Em!</button>
+	    </form>
+	    <button type="button" class="btn btn-default" data-dismiss="modal">Save my buddy!</button>
+	  </div>
+	</div>
+      </div>
     </div>
     {% endfor %}
     <form action="/new_character" method="get">

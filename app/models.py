@@ -27,6 +27,21 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % (self.name)
 
+char_skills = db.Table('char_skills',
+        db.Column('char_id', db.Integer, db.ForeignKey('character.id')),
+        db.Column('skill_id', db.Integer, db.ForeignKey('skill.id')))
+
+class Skill(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(150))
+    description = db.Column(db.String())
+    category = db.Column(db.String(50))
+    base = db.Column(db.Integer)
+    per_level = db.Column(db.Integer)
+
+    def __repr__(self):
+        return '<Skill %r %r>' % (self.name, self.category)
+
 class Character(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     first_name = db.Column(db.String(150))
@@ -45,6 +60,7 @@ class Character(db.Model):
     pb = db.Column(db.Integer)
     spd = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    skills = db.relationship('Skill', secondary=char_skills, backref=db.backref('characters', lazy='dynamic'))
 
     def __repr__(self):
         return '<Character %r %r>' % (self.first_name, self.last_name)
