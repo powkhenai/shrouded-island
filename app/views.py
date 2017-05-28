@@ -2,7 +2,7 @@ import hashlib
 from app import app, db, lm
 from flask import Flask, render_template, session, redirect, url_for, request, flash, g
 from flask_login import login_user, logout_user, current_user, login_required
-from .forms import LoginForm, NewCharForm, NewSkillForm
+from .forms import LoginForm, NewCharForm, NewSkillForm, AddSkillToChar
 from .models import User, Character, Skill
 
 @app.before_request
@@ -49,14 +49,24 @@ def show_char(char_id):
         return redirect(url_for('index'))
     return render_template('char_sheet.html', name=user.name, character=character)
 
-@app.route('/character/<char_id>/skills')
+@app.route('/character/<char_id>/skills', methods=['GET', 'POST'])
 @login_required
 def skill_page(char_id):
     user = g.user
     character = Character.query.get(char_id)
+    form = AddSkillToChar()
+    form.skills.choices = [(s.id, s.name) for s in Skill.query.order_by('name')]
     if character.player != user:
         return redirect(url_for('index'))
-    return render_template('skills.html', name=user.name, character=character)
+    if form.validate_on_submit():
+        for skill_id in form.skills.data:
+            character.skills.append(Skill.query.get(skill_id))
+        db.session.commit()
+        return redirect(url_for('skill_page', char_id=char_id))
+    else:
+        for i in form.errors:
+            print i
+    return render_template('skills.html', name=user.name, character=character, form=form)
 
 
 @app.route('/delete_character/<char_id>')
