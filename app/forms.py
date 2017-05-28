@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, BooleanField, PasswordField, IntegerField, SelectField, TextAreaField
+from wtforms import StringField, BooleanField, PasswordField, IntegerField, SelectField, TextAreaField, SelectMultipleField
 from wtforms.validators import DataRequired
 
 class LoginForm(FlaskForm):
@@ -31,3 +31,9 @@ class NewSkillForm(FlaskForm):
         ('Domestic', 'Domestic'), ('Electrical', 'Electrical'), ('Espionage', 'Espionage'), ('Horsemanship', 'Horsemanship')])
     base = IntegerField('base', validators=[DataRequired()])
     per_level = IntegerField('Per Level', validators=[DataRequired()])
+
+class AddSkillToChar(FlaskForm):
+    category = SelectField('Skill Category', choices=[('Communication', 'Communication'), ('Cowboy', 'Cowboy'),
+        ('Domestic', 'Domestic'), ('Electrical', 'Electrical'), ('Espionage', 'Espionage'), ('Horsemanship', 'Horsemanship')])
+    skills = SelectMultipleField(u'Add Skills', coerce=int)
+
