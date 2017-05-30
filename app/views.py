@@ -3,7 +3,7 @@ from app import app, db, lm
 from flask import Flask, render_template, session, redirect, url_for, request, flash, g
 from flask_login import login_user, logout_user, current_user, login_required
 from .forms import LoginForm, NewCharForm, NewSkillForm, AddSkillToChar
-from .models import User, Character, Skill
+from .models import User, Character, Skill, SkillCategory
 
 @app.before_request
 def before_request():
@@ -106,13 +106,18 @@ def newChar():
 def newSkill():
     user = g.user
     form = NewSkillForm()
+    form.category.choices = [(s.id, s.name) for s in SkillCategory.query.order_by('name')]
     if form.validate_on_submit():
-        skill = Skill(name=form.name.data, description=form.description.data, category=form.category.data,
-                base=form.base.data, per_level=form.per_level.data)
+        skill = Skill(name=form.name.data, description=form.description.data, skill_category=form.category.data,
+                base=form.base.data, per_level=form.per_level.data, note=form.note.data)
         db.session.add(skill)
         db.session.commit()
         flash("Skill: %s added to the system" % (skill.name))
-        #return redirect(url_for('index'))
+        return redirect(url_for('newSkill'))
+    if request.method == 'POST':
+        flash(form.errors)
+        flash(form.category.choices)
+        flash(form.category.data)
     return render_template('newskill.html', title='New Skill', name=user.name, form=form)
 
 @app.route('/logout')

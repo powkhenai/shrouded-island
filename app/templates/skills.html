@@ -9,7 +9,12 @@
     <div class="row">
 	<div class="col-xs-12 col-md-8 well">
 	    <h2>{{ character.first_name }} {{ character.last_name }}</h2>
-	    <b>O.C.C. Skills: </b> {{ character.skills }}
+	    <b>O.C.C. Skills: </b> 
+	    <br>
+	    {% for skill in character.skills %}
+		{{ skill.name }} {{ skill.base }} {{ skill.per_level }}
+		<br>
+	    {% endfor %}
 	</div>
 	<div class="col-xs-6 col-md-4">
 	    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addskill">
