@@ -33,7 +33,7 @@ class NewSkillForm(FlaskForm):
     note = TextAreaField('note', validators=[Optional(strip_whitespace=False)])
 
 class AddSkillToChar(FlaskForm):
-    category = SelectField('Skill Category', choices=[('Communication', 'Communication'), ('Cowboy', 'Cowboy'),
-        ('Domestic', 'Domestic'), ('Electrical', 'Electrical'), ('Espionage', 'Espionage'), ('Horsemanship', 'Horsemanship')])
+    category = SelectField('Skill Category', coerce=int)
+    skill_type = SelectField('Skill Type', choices=[('OCC', 'O.C.C. Skills'),('REL','O.C.C Related'), ('SEC', 'Secondary Skills')])
     skills = SelectMultipleField(u'Add Skills', coerce=int)
 

@@ -12,7 +12,7 @@
 	    <b>O.C.C. Skills: </b> 
 	    <br>
 	    {% for skill in character.skills %}
-		{{ skill.name }} {{ skill.base }} {{ skill.per_level }}
+		{{ skill.skill.name }} {{ skill.skill.base }} {{ skill.skill.per_level }}
 		<br>
 	    {% endfor %}
 	</div>
@@ -42,8 +42,10 @@
           <div class="modal-body">
 	      <form class="form" action="" method="post" name="addskilltochar">
 		  {{ form.hidden_tag() }}
-		{{ form.category(class_="form-contorl") }}
-		{{ form.skills(class_="form-control", height="40px", width="30px") }}
+		{{ form.category(class_="form-contorl", id="cat_sel") }}
+		{{ form.skill_type(class_="form-control") }}
+		{{ form.skills(class_="form-control", id="skill_list", height="40px", width="30px") }}
+		<span id="test_out">output</span>
           </div>
           <div class="modal-footer">
                 <button type="submit" class="btn btn-danger">Add Skills</button>
