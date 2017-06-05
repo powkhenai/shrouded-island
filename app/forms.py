@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, PasswordField, IntegerField, SelectField, TextAreaField, SelectMultipleField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Optional
 
 class LoginForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
@@ -25,15 +25,15 @@ class NewCharForm(FlaskForm):
     spd = IntegerField('spd')
 
 class NewSkillForm(FlaskForm):
+    category = SelectField('Skill Category', coerce=int)
     name = StringField('name', validators=[DataRequired()])
-    description = TextAreaField('description', validators=[DataRequired()])
-    category = SelectField('Skill Category', choices=[('Communication', 'Communication'), ('Cowboy', 'Cowboy'),
-        ('Domestic', 'Domestic'), ('Electrical', 'Electrical'), ('Espionage', 'Espionage'), ('Horsemanship', 'Horsemanship')])
     base = IntegerField('base', validators=[DataRequired()])
     per_level = IntegerField('Per Level', validators=[DataRequired()])
+    description = TextAreaField('description', validators=[DataRequired()])
+    note = TextAreaField('note', validators=[Optional(strip_whitespace=False)])
 
 class AddSkillToChar(FlaskForm):
-    category = SelectField('Skill Category', choices=[('Communication', 'Communication'), ('Cowboy', 'Cowboy'),
-        ('Domestic', 'Domestic'), ('Electrical', 'Electrical'), ('Espionage', 'Espionage'), ('Horsemanship', 'Horsemanship')])
+    category = SelectField('Skill Category', coerce=int)
+    skill_type = SelectField('Skill Type', choices=[('OCC', 'O.C.C. Skills'),('REL','O.C.C Related'), ('SEC', 'Secondary Skills')])
     skills = SelectMultipleField(u'Add Skills', coerce=int)
 

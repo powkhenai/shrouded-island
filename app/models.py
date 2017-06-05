@@ -27,20 +27,38 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % (self.name)
 
-char_skills = db.Table('char_skills',
-        db.Column('char_id', db.Integer, db.ForeignKey('character.id')),
-        db.Column('skill_id', db.Integer, db.ForeignKey('skill.id')))
+class CharSkills(db.Model):
+        __tablename__ = 'char_skills'
+        char_id = db.Column('char_id', db.Integer, db.ForeignKey('character.id'), primary_key = True)
+        skill_id = db.Column('skill_id', db.Integer, db.ForeignKey('skill.id'), primary_key = True)
+        skill_type = db.Column('skill_type', db.String(3))
+        skill = db.relationship('Skill', back_populates='characters')
+        character = db.relationship('Character', back_populates='skills')
+
+class SkillCategory(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(50))
+    skills = db.relationship('Skill', backref='skills', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Skill %r %r>' % (self.id, self.name)
 
 class Skill(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(150))
     description = db.Column(db.String())
-    category = db.Column(db.String(50))
+    note =db.Column(db.String())
+    skill_category = db.Column(db.Integer, db.ForeignKey('skill_category.id'))
     base = db.Column(db.Integer)
     per_level = db.Column(db.Integer)
+    characters = db.relationship('CharSkills', back_populates='skill')
 
     def __repr__(self):
-        return '<Skill %r %r>' % (self.name, self.category)
+        return '<Skill %r %r>' % (self.name, self.skill_category)
+
+    # Used to render this object type for the flask.jsonify function
+    def __html__(self):
+        return '{"id": %r, "name": "%s"}' % (self.id, self.name)
 
 class Character(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -60,7 +78,7 @@ class Character(db.Model):
     pb = db.Column(db.Integer)
     spd = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    skills = db.relationship('Skill', secondary=char_skills, backref=db.backref('characters', lazy='dynamic'))
+    skills = db.relationship('CharSkills', back_populates='character')
 
     def __repr__(self):
         return '<Character %r %r>' % (self.first_name, self.last_name)

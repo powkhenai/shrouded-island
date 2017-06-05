@@ -5,30 +5,45 @@ from migrate import *
 from migrate.changeset import schema
 pre_meta = MetaData()
 post_meta = MetaData()
-character = Table('character', pre_meta,
-    Column('id', INTEGER, primary_key=True, nullable=False),
-    Column('firstName', VARCHAR(length=250)),
-    Column('lastName', VARCHAR(length=250)),
-    Column('height', INTEGER),
-    Column('weight', INTEGER),
-    Column('age', INTEGER),
-    Column('hp', INTEGER),
-    Column('exp', INTEGER),
-    Column('iq', INTEGER),
-    Column('me', INTEGER),
-    Column('ma', INTEGER),
-    Column('ps', INTEGER),
-    Column('pp', INTEGER),
-    Column('pe', INTEGER),
-    Column('pb', INTEGER),
-    Column('spd', INTEGER),
-    Column('user_id', INTEGER),
+char_skills = Table('char_skills', post_meta,
+    Column('char_id', Integer, primary_key=True, nullable=False),
+    Column('skill_id', Integer, primary_key=True, nullable=False),
+    Column('skill_type', String(length=3)),
 )
 
-user = Table('user', pre_meta,
-    Column('id', INTEGER, primary_key=True, nullable=False),
-    Column('username', VARCHAR(length=250), nullable=False),
-    Column('password', VARCHAR(length=250), nullable=False),
+character = Table('character', post_meta,
+    Column('id', Integer, primary_key=True, nullable=False),
+    Column('first_name', String(length=150)),
+    Column('last_name', String(length=150)),
+    Column('height', Integer),
+    Column('weight', Integer),
+    Column('age', Integer),
+    Column('hp', Integer),
+    Column('exp', Integer),
+    Column('iq', Integer),
+    Column('me', Integer),
+    Column('ma', Integer),
+    Column('ps', Integer),
+    Column('pp', Integer),
+    Column('pe', Integer),
+    Column('pb', Integer),
+    Column('spd', Integer),
+    Column('user_id', Integer),
+)
+
+skill = Table('skill', post_meta,
+    Column('id', Integer, primary_key=True, nullable=False),
+    Column('name', String(length=150)),
+    Column('description', String),
+    Column('note', String),
+    Column('skill_category', Integer),
+    Column('base', Integer),
+    Column('per_level', Integer),
+)
+
+skill_category = Table('skill_category', post_meta,
+    Column('id', Integer, primary_key=True, nullable=False),
+    Column('name', String(length=50)),
 )
 
 user = Table('user', post_meta,
@@ -43,19 +58,19 @@ def upgrade(migrate_engine):
     # migrate_engine to your metadata
     pre_meta.bind = migrate_engine
     post_meta.bind = migrate_engine
-    pre_meta.tables['character'].drop()
-    pre_meta.tables['user'].columns['password'].drop()
-    pre_meta.tables['user'].columns['username'].drop()
-    post_meta.tables['user'].columns['login_token'].create()
-    post_meta.tables['user'].columns['name'].create()
+    post_meta.tables['char_skills'].create()
+    post_meta.tables['character'].create()
+    post_meta.tables['skill'].create()
+    post_meta.tables['skill_category'].create()
+    post_meta.tables['user'].create()
 
 
 def downgrade(migrate_engine):
     # Operations to reverse the above upgrade go here.
     pre_meta.bind = migrate_engine
     post_meta.bind = migrate_engine
-    pre_meta.tables['character'].create()
-    pre_meta.tables['user'].columns['password'].create()
-    pre_meta.tables['user'].columns['username'].create()
-    post_meta.tables['user'].columns['login_token'].drop()
-    post_meta.tables['user'].columns['name'].drop()
+    post_meta.tables['char_skills'].drop()
+    post_meta.tables['character'].drop()
+    post_meta.tables['skill'].drop()
+    post_meta.tables['skill_category'].drop()
+    post_meta.tables['user'].drop()

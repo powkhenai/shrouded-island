@@ -1,9 +1,10 @@
 import hashlib
 from app import app, db, lm
-from flask import Flask, render_template, session, redirect, url_for, request, flash, g
+from flask import Flask, render_template, session, redirect, url_for, request, flash, g, jsonify
+from flask.json import dumps
 from flask_login import login_user, logout_user, current_user, login_required
 from .forms import LoginForm, NewCharForm, NewSkillForm, AddSkillToChar
-from .models import User, Character, Skill
+from .models import User, Character, Skill, SkillCategory, CharSkills
 
 @app.before_request
 def before_request():
@@ -55,12 +56,15 @@ def skill_page(char_id):
     user = g.user
     character = Character.query.get(char_id)
     form = AddSkillToChar()
+    form.category.choices = [(c.id, c.name) for c in SkillCategory.query.order_by('name')]
     form.skills.choices = [(s.id, s.name) for s in Skill.query.order_by('name')]
     if character.player != user:
         return redirect(url_for('index'))
     if form.validate_on_submit():
         for skill_id in form.skills.data:
-            character.skills.append(Skill.query.get(skill_id))
+            new_skill = CharSkills(skill_type=form.skill_type.data)
+            new_skill.skill=Skill.query.get(skill_id)
+            new_skill.character=character
         db.session.commit()
         return redirect(url_for('skill_page', char_id=char_id))
     else:
@@ -106,13 +110,18 @@ def newChar():
 def newSkill():
     user = g.user
     form = NewSkillForm()
+    form.category.choices = [(s.id, s.name) for s in SkillCategory.query.order_by('name')]
     if form.validate_on_submit():
-        skill = Skill(name=form.name.data, description=form.description.data, category=form.category.data,
-                base=form.base.data, per_level=form.per_level.data)
+        skill = Skill(name=form.name.data, description=form.description.data, skill_category=form.category.data,
+                base=form.base.data, per_level=form.per_level.data, note=form.note.data)
         db.session.add(skill)
         db.session.commit()
         flash("Skill: %s added to the system" % (skill.name))
-        #return redirect(url_for('index'))
+        return redirect(url_for('newSkill'))
+    if request.method == 'POST':
+        flash(form.errors)
+        flash(form.category.choices)
+        flash(form.category.data)
     return render_template('newskill.html', title='New Skill', name=user.name, form=form)
 
 @app.route('/logout')
@@ -123,3 +132,12 @@ def logout():
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+@app.route('/db/<category>/skills')
+@login_required
+def getSkillbyCategory(category):
+    skill_array = (Skill.query.filter_by(skill_category=category).all())
+    print dumps(skill_array)
+    ret_data = jsonify('{"skills": %s}' % dumps(skill_array))
+    return ret_data
+
