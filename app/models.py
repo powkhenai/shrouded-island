@@ -28,12 +28,15 @@ class User(db.Model):
         return '<User %r>' % (self.name)
 
 class CharSkills(db.Model):
-        __tablename__ = 'char_skills'
-        char_id = db.Column('char_id', db.Integer, db.ForeignKey('character.id'), primary_key = True)
-        skill_id = db.Column('skill_id', db.Integer, db.ForeignKey('skill.id'), primary_key = True)
-        skill_type = db.Column('skill_type', db.String(3))
-        skill = db.relationship('Skill', back_populates='characters')
-        character = db.relationship('Character', back_populates='skills')
+    __tablename__ = 'char_skills'
+    char_id = db.Column('char_id', db.Integer, db.ForeignKey('character.id'), primary_key = True)
+    skill_id = db.Column('skill_id', db.Integer, db.ForeignKey('skill.id'), primary_key = True)
+    skill_type = db.Column('skill_type', db.String(3))
+    skill = db.relationship('Skill', back_populates='characters')
+    character = db.relationship('Character', back_populates='skills')
+
+    def __repr__(self):
+        return '<CharSkill %r %r>' % (self.character, self.skill)
 
 class SkillCategory(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -77,8 +80,19 @@ class Character(db.Model):
     pe = db.Column(db.Integer)
     pb = db.Column(db.Integer)
     spd = db.Column(db.Integer)
+    alignment = db.Column(db.Integer, db.ForeignKey('alignment.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     skills = db.relationship('CharSkills', back_populates='character')
 
     def __repr__(self):
         return '<Character %r %r>' % (self.first_name, self.last_name)
+
+class Alignment(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(50))
+    category = db.Column(db.String(8))
+    description = db.Column(db.String())
+    chars = db.relationship('Character', backref='align', lazy='dynamic')
+
+    def __repr__(self):
+        return '<Alignment %r %r>' % (self.name, self.category)
