@@ -80,6 +80,8 @@ def rmChar(char_id):
     character = Character.query.get(char_id)
     if character.player != user:
         return redirect(url_for('index'))
+    for skill in character.skills:
+        db.session.delete(skill)
     db.session.delete(character)
     db.session.commit()
     return redirect(url_for('index'))
