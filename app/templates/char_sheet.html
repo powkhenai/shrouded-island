@@ -8,10 +8,33 @@
     </ul>
     <div class="row">
 	<div class="col-xs-12 col-md-8 well">
-	    <h2>{{ character.first_name }} {{ character.last_name }}</h2>
-	    <b>Race: </b> {{ character.race }}
-	    <br>
-	    <b>Occupation: </b> {{ character.occupation }}
+	    <div class="row">
+		<div class="col-xs-12 col-md-4">
+		    <h2>{{ character.first_name }} {{ character.last_name }}</h2>
+		</div>
+		<div class="col-xs-6 col-md-4">
+		    <h4> Human </h4>
+		</div>
+		<div class="col-xs-6 col-md-4">
+		    <h4> TechnoWizard </h4>
+		</div>
+	    </div>
+	    <div class="col-xs-6 col-md-6" style="background:gray">
+		<b>Age: </b> {{ character.age }}
+		<br>
+		<b>Height: </b> {{ character.height }}
+		<br>
+		<b>Weight: </b> {{ character.weight }}
+		<br>
+		<b>Occupation: </b> {{ character.occupation }}
+	    </div>
+	    <div class="col-xs-6 col-md-6" style="background:green">
+		{% set stats = ['iq', 'me', 'ma', 'ps', 'pp', 'pe', 'pb', 'spd'] %}
+		{% for stat in stats %}
+		<b>{{ stat| upper }}:</b> {{ character[stat] }}
+		<br>
+		{% endfor %}
+	    </div>
 	</div>
 	<div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
     </div>
