@@ -4,7 +4,7 @@ from flask import Flask, render_template, session, redirect, url_for, request, f
 from flask.json import dumps
 from flask_login import login_user, logout_user, current_user, login_required
 from .forms import LoginForm, NewCharForm, NewSkillForm, AddSkillToChar
-from .models import User, Character, Skill, SkillCategory, CharSkills
+from .models import User, Character, Skill, SkillCategory, CharSkills, Alignment
 
 @app.before_request
 def before_request():
@@ -80,6 +80,8 @@ def rmChar(char_id):
     character = Character.query.get(char_id)
     if character.player != user:
         return redirect(url_for('index'))
+    for skill in character.skills:
+        db.session.delete(skill)
     db.session.delete(character)
     db.session.commit()
     return redirect(url_for('index'))
@@ -89,6 +91,7 @@ def rmChar(char_id):
 def newChar():
     user = g.user
     form = NewCharForm()
+    form.alignment.choices = [(c.id, c.name) for c in Alignment.query.order_by('name')]
     if form.validate_on_submit():
         character = Character(first_name=form.first_name.data, last_name=form.last_name.data,
                               height=form.height.data, weight=form.weight.data,
@@ -97,7 +100,8 @@ def newChar():
                               me=form.me.data, ma=form.ma.data,
                               ps=form.ps.data, pp=form.pp.data,
                               pe=form.pe.data, pb=form.pb.data,
-                              spd=form.spd.data, player=user)
+                              spd=form.spd.data, player=user,
+                              align=Alignment.query.get(form.alignment.data))
         db.session.add(character)
         db.session.commit()
         flash('User: %s ID: %d' % (user.name, user.id))

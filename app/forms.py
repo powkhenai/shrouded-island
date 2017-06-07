@@ -10,6 +10,7 @@ class LoginForm(FlaskForm):
 class NewCharForm(FlaskForm):
     first_name = StringField('first_name', validators=[DataRequired()])
     last_name = StringField('first_name', validators=[DataRequired()])
+    alignment = SelectField('alignment', coerce=int)
     height = IntegerField('height')
     weight = IntegerField('weight')
     age = IntegerField('age')

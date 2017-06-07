@@ -8,12 +8,44 @@
     </ul>
     <div class="row">
 	<div class="col-xs-12 col-md-8 well">
-	    <h2>{{ character.first_name }} {{ character.last_name }}</h2>
-	    <b>Race: </b> {{ character.race }}
-	    <br>
-	    <b>Occupation: </b> {{ character.occupation }}
+	    <div class="row">
+		<div class="col-xs-12 col-md-4">
+		    <h2>{{ character.first_name }} {{ character.last_name }}</h2>
+		</div>
+		<div class="col-xs-6 col-md-4">
+		    <h4> Human </h4>
+		</div>
+		<div class="col-xs-6 col-md-4">
+		    <h4> TechnoWizard </h4>
+		</div>
+	    </div>
+	    <div class="col-xs-6 col-md-6" style="background:gray">
+		<b>Sex: </b> {{ character.sex }}
+		<br>
+		<b>Age: </b> {{ character.age }}
+		<br>
+		<b>Height: </b> {{ character.height }}
+		<br>
+		<b>Weight: </b> {{ character.weight }}
+		<br>
+		<b>Occupation: </b> {{ character.occupation }}
+		<br>
+		<b>Alignment: </b> {{ character.alignment }}
+	    </div>
+	    <div class="col-xs-6 col-md-6" style="background:green">
+		{% set stats = ['iq', 'me', 'ma', 'ps', 'pp', 'pe', 'pb', 'spd'] %}
+		{% for stat in stats %}
+		<b>{{ stat| upper }}:</b> {{ character[stat] }}
+		<br>
+		{% endfor %}
+	    </div>
 	</div>
-	<div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
+	<div class="col-xs-6 col-md-4">
+	    <b>HP</b>: {{ character.hp }}
+	    <div class="progress">
+		<div class="progress-bar progress-bar-success" style="width: 60%"></div>
+		<div class="progress-bar progress-bar-danger" style="width: 40%"></div>
+	</div>
     </div>
 
     <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
