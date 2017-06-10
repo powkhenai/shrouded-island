@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <link href="/static/signin.css" rel="stylesheet">
+{% endblock %}
+   
+{% block content %}
+  <form class="form-signin" action="" method="post" name="login">
+      {{ form.hidden_tag() }}
+    {% for error in form.login_token.errors %}
+	<div class="alert alert-danger" role="alert">Passwords must match</div>
+    {% endfor %}
+    {% if success %}
+	<div class="alert alert-success" role="alert">Password successfully updated</div>
+    {% endif %}
+    <h2 class="form-signin-heading">Change Password:</h2>
+    <label for="password" class="sr-only">Password</label>
+    {{ form.login_token(class_="form-control", placeholder="Password") }}
+    <label for="match" class="sr-only">Re-Enter Password</label>
+    {{ form.match_token(class_="form-control", placeholder="Re-Enter Password") }}
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Change Password</button>
+  </form>
+{% endblock %}

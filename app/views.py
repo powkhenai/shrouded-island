@@ -3,7 +3,7 @@ from app import app, db, lm
 from flask import Flask, render_template, session, redirect, url_for, request, flash, g, jsonify
 from flask.json import dumps
 from flask_login import login_user, logout_user, current_user, login_required
-from .forms import LoginForm, NewCharForm, NewSkillForm, AddSkillToChar
+from .forms import LoginForm, NewCharForm, NewSkillForm, AddSkillToChar, ChangePasswordForm
 from .models import User, Character, Skill, SkillCategory, CharSkills, Alignment
 
 @app.before_request
@@ -38,7 +38,7 @@ def index():
     user = g.user
     characters = Character.query.filter_by(user_id=user.id).all()
     print characters
-    return render_template('test.html', name=user.name, characters=characters)
+    return render_template('test.html', user=user, characters=characters)
 
 @app.route('/character/<char_id>')
 @login_required
@@ -48,7 +48,7 @@ def show_char(char_id):
     print character
     if character.player != user:
         return redirect(url_for('index'))
-    return render_template('char_sheet.html', name=user.name, character=character)
+    return render_template('char_sheet.html', user=user, character=character)
 
 @app.route('/character/<char_id>/skills', methods=['GET', 'POST'])
 @login_required
@@ -70,7 +70,7 @@ def skill_page(char_id):
     else:
         for i in form.errors:
             print i
-    return render_template('skills.html', name=user.name, character=character, form=form)
+    return render_template('skills.html', user=user, character=character, form=form)
 
 
 @app.route('/delete_character/<char_id>')
@@ -126,12 +126,27 @@ def newSkill():
         flash(form.errors)
         flash(form.category.choices)
         flash(form.category.data)
-    return render_template('newskill.html', title='New Skill', name=user.name, form=form)
+    return render_template('newskill.html', title='New Skill', user=user, form=form)
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/user/<user_id>', methods=['GET', 'POST'])
+@login_required
+def user_profile(user_id):
+    user = g.user
+    form = ChangePasswordForm()
+    success = False
+    if user != User.query.get(int(user_id)):
+        return redirect(url_for('index'))
+    if form.validate_on_submit():
+        auth = form.login_token.data
+        user.login_token = hashlib.sha256(auth).hexdigest()
+        db.session.commit()
+        success=True
+    return render_template('user_profile.html', title='User Profile', user=user, form=form, success=success)
 
 @lm.user_loader
 def load_user(id):
