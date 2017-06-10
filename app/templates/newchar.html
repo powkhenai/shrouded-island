@@ -17,19 +17,19 @@
     <label for="password" class="sr-only">Password</label>
     {{ form.last_name(class_="form-control", placeholder="Last Name") }}
     {{ form.alignment(class_="form-control", placeholder="Alignment") }}
-    {{ form.height(class_="form-control", placeholder="Height") }}
-    {{ form.weight(class_="form-control", placeholder="Weight") }}
-    {{ form.age(class_="form-control", placeholder="Age") }}
-    {{ form.hp(class_="form-control", placeholder="HP") }}
-    {{ form.exp(class_="form-control", placeholder="EXP") }}
-    {{ form.iq(class_="form-control", placeholder="I.Q.") }}
-    {{ form.me(class_="form-control", placeholder="M.E.") }}
-    {{ form.ma(class_="form-control", placeholder="M.A.") }}
-    {{ form.ps(class_="form-control", placeholder="P.S.") }}
-    {{ form.pp(class_="form-control", placeholder="P.P.") }}
-    {{ form.pe(class_="form-control", placeholder="P.E.") }}
-    {{ form.pb(class_="form-control", placeholder="P.B.") }}
-    {{ form.spd(class_="form-control", placeholder="SPD") }}
+    {{ form.height(class_="form-control", placeholder="Height", type="text", pattern="[0-9]*") }}
+    {{ form.weight(class_="form-control", placeholder="Weight", type="text", pattern="[0-9]*") }}
+    {{ form.age(class_="form-control", placeholder="Age", type="text", pattern="[0-9]*") }}
+    {{ form.hp(class_="form-control", placeholder="HP", type="text", pattern="[0-9]*") }}
+    {{ form.exp(class_="form-control", placeholder="EXP", type="text", pattern="[0-9]*") }}
+    {{ form.iq(class_="form-control", placeholder="I.Q.", type="text", pattern="[0-9]*") }}
+    {{ form.me(class_="form-control", placeholder="M.E.", type="text", pattern="[0-9]*") }}
+    {{ form.ma(class_="form-control", placeholder="M.A.", type="text", pattern="[0-9]*") }}
+    {{ form.ps(class_="form-control", placeholder="P.S.", type="text", pattern="[0-9]*") }}
+    {{ form.pp(class_="form-control", placeholder="P.P.", type="text", pattern="[0-9]*") }}
+    {{ form.pe(class_="form-control", placeholder="P.E.", type="text", pattern="[0-9]*") }}
+    {{ form.pb(class_="form-control", placeholder="P.B.", type="text", pattern="[0-9]*") }}
+    {{ form.spd(class_="form-control", placeholder="SPD", type="text", pattern="[0-9]*") }}
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
   </form>
