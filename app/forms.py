@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, PasswordField, IntegerField, SelectField, TextAreaField, SelectMultipleField
-from wtforms.validators import DataRequired, Optional
+from wtforms.validators import DataRequired, Optional, EqualTo
 
 class LoginForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
@@ -38,3 +38,6 @@ class AddSkillToChar(FlaskForm):
     skill_type = SelectField('Skill Type', choices=[('OCC', 'O.C.C. Skills'),('REL','O.C.C Related'), ('SEC', 'Secondary Skills')])
     skills = SelectMultipleField(u'Add Skills', coerce=int)
 
+class ChangePasswordForm(FlaskForm):
+    login_token = PasswordField('login_token', validators=[DataRequired(), EqualTo('match_token', message='Passwords must match')])
+    match_token = PasswordField('match_token', validators=[DataRequired()])
