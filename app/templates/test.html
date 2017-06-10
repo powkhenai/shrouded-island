@@ -21,7 +21,7 @@
 		</div>
 		<div class="col-xs-3 col-md-3"></div>
 		<div class="col-xs-1 col-md-1">
-		    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del{{ char.first_name }}">
+		    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#del{{ char.id }}">
 			<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
 		    </button>
 		</div>
@@ -29,7 +29,7 @@
 	</div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="del{{ char.first_name }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="del{{ char.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
 	<div class="modal-content">
 	  <div class="modal-header">
