@@ -160,3 +160,13 @@ def getSkillbyCategory(category):
     ret_data = jsonify('{"skills": %s}' % dumps(skill_array))
     return ret_data
 
+@app.route('/db/character/<char_id>/skill/<skill_id>/remove')
+@login_required
+def remSkillFromChar(char_id, skill_id):
+    user=g.user
+    if user != Character.query.get(char_id).player:
+        return redirect(url_for('index'))
+    charskill = CharSkills.query.get((char_id, skill_id))
+    db.session.delete(charskill)
+    db.session.commit()
+    return redirect(url_for('skill_page', char_id=char_id))
