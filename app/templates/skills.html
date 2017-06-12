@@ -28,7 +28,13 @@
 				$(document).ready(function() {
 				$('#current_level').change(function()
 					{ 
-					    var skilltotal = ($('#current_level').val()*1 * {{ skill.skill.per_level }}) + {{ skill.skill.base }} {% if skill.class_bonus %}+ {{ skill.class_bonus }}{% endif %}
+					    var iqbonus = 0;
+					    if ({{ character.iq }} >= 16)
+					    {
+						iqbonus = {{ character.iq }}*1 - 14;
+					    }
+					    var skilllevel = $('#current_level').val()*1 * {{ skill.skill.per_level }};
+					    var skilltotal = iqbonus + skilllevel + {{ skill.skill.base }} {% if skill.class_bonus %}+ {{ skill.class_bonus }}{% endif %};
 					    $("#total{{ skill.skill.id }}").html(skilltotal + "%")
 					});
 				});
@@ -41,6 +47,13 @@
 			    data-target="#skilldesc_{{ skill.skill.id }}">
 				show
 			    </button>
+			</div>
+			<div class="col-xs-2">
+			    <form action="/db/character/{{ character.id }}/skill/{{ skill.skill.id }}/remove", method="get">
+				<button type="submit" class="btn btn-danger btn-xs">
+				    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+				</button>
+			    </form>
 			</div>
 		    </div>
 		    {% endif %}
