@@ -35,6 +35,7 @@ class NewSkillForm(FlaskForm):
 
 class AddSkillToChar(FlaskForm):
     category = SelectField('Skill Category', coerce=int)
+    bonus = IntegerField('bonus', validators=[Optional()])
     skill_type = SelectField('Skill Type', choices=[('OCC', 'O.C.C. Skills'),('REL','O.C.C Related'), ('SEC', 'Secondary Skills')])
     skills = SelectMultipleField(u'Add Skills', coerce=int)
 
