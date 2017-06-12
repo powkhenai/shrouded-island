@@ -62,7 +62,7 @@ def skill_page(char_id):
         return redirect(url_for('index'))
     if form.validate_on_submit():
         for skill_id in form.skills.data:
-            new_skill = CharSkills(skill_type=form.skill_type.data)
+            new_skill = CharSkills(skill_type=form.skill_type.data, class_bonus=form.bonus.data)
             new_skill.skill=Skill.query.get(skill_id)
             new_skill.character=character
         db.session.commit()

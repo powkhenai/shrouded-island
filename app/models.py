@@ -32,6 +32,7 @@ class CharSkills(db.Model):
     char_id = db.Column('char_id', db.Integer, db.ForeignKey('character.id'), primary_key = True)
     skill_id = db.Column('skill_id', db.Integer, db.ForeignKey('skill.id'), primary_key = True)
     skill_type = db.Column('skill_type', db.String(3))
+    class_bonus = db.Column('class_bonus', db.Integer)
     skill = db.relationship('Skill', back_populates='characters')
     character = db.relationship('Character', back_populates='skills')
 
