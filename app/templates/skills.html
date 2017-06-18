@@ -33,9 +33,15 @@
 					    {
 						iqbonus = {{ character.iq }}*1 - 14;
 					    }
-					    var skilllevel = $('#current_level').val()*1 * {{ skill.skill.per_level }};
-					    var skilltotal = iqbonus + skilllevel + {{ skill.skill.base }} {% if skill.class_bonus %}+ {{ skill.class_bonus }}{% endif %};
+					    var skilllevel = ($('#current_level').val()*1-1) * {{ skill.skill.per_level }};
+					    var skilltotal = iqbonus + skilllevel + {{ skill.skill.base }}*1 {% if skill.class_bonus %}+ {{ skill.class_bonus }}*1{% endif %};
 					    $("#total{{ skill.skill.id }}").html(skilltotal + "%")
+					    $("#skill_breakdown{{ skill.skill.id }}").html(
+						    "Base: {{ skill.skill.base }}"
+						    + " Per Level: " + skilllevel
+						    + " O.C.C. Bonus: {{ skill.class_bonus }}"
+						    + " I.Q. Bonus: " + iqbonus
+						    )
 					});
 				});
 			    </script>
@@ -85,6 +91,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
 	    <h4 class="modal-title" id="myModalLabel">{{ skill.skill.name }}</h4>
+	    <p id="skill_breakdown{{ skill.skill.id }}"></p>
           </div>
           <div class="modal-body">
 	      <b>Desc:</b>
