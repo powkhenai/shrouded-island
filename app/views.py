@@ -56,8 +56,9 @@ def skill_page(char_id):
     user = g.user
     character = Character.query.get(char_id)
     form = AddSkillToChar()
-    form.category.choices = [(c.id, c.name) for c in SkillCategory.query.order_by('name')]
-    form.skills.choices = [(s.id, s.name) for s in Skill.query.order_by('name')]
+    form.category.choices = [(0, 'Category')]
+    form.category.choices.extend([(c.id, c.name) for c in SkillCategory.query.order_by('name')])
+    form.skills.choices = []
     if character.player != user:
         return redirect(url_for('index'))
     if form.validate_on_submit():
