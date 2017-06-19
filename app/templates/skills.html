@@ -100,7 +100,7 @@
 	      {% if skill.skill.note %}
 	      <br>
 	      <b>Note:</b>
-	      <p>{{ skill.skill.note }}</p>
+	      <p>{{ skill.skill.note|safe }}</p>
 	      {% endif %}
           </div>
         </div>
