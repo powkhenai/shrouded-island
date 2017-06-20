@@ -27,12 +27,22 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % (self.name)
 
+class SkillPreqs(db.Model):
+    skill_id = db.Column('skill_id', db.Integer, db.ForeignKey('skill.id'), primary_key = True)
+    preq_id = db.Column('preq_id', db.Integer, db.ForeignKey('skill.id'), primary_key = True)
+    skill = db.relationship('Skill', foreign_keys=[skill_id])
+    preq = db.relationship('Skill', foreign_keys=[preq_id], back_populates='preqs')
+
+    def __repr__(self):
+        return '<Skill Prerequisite %r depends on %r>' % (self.skill, self.preq)
+
 class CharSkills(db.Model):
     __tablename__ = 'char_skills'
     char_id = db.Column('char_id', db.Integer, db.ForeignKey('character.id'), primary_key = True)
     skill_id = db.Column('skill_id', db.Integer, db.ForeignKey('skill.id'), primary_key = True)
     skill_type = db.Column('skill_type', db.String(3))
     class_bonus = db.Column('class_bonus', db.Integer)
+    inherited = db.Column('inherited', db.Boolean)
     skill = db.relationship('Skill', back_populates='characters')
     character = db.relationship('Character', back_populates='skills')
 
@@ -56,6 +66,7 @@ class Skill(db.Model):
     base = db.Column(db.Integer)
     per_level = db.Column(db.Integer)
     characters = db.relationship('CharSkills', back_populates='skill')
+    preqs = db.relationship('SkillPreqs', foreign_keys=[SkillPreqs.skill_id])
 
     def __repr__(self):
         return '<Skill %r %r>' % (self.name, self.skill_category)

@@ -100,7 +100,7 @@
 	      {% if skill.skill.note %}
 	      <br>
 	      <b>Note:</b>
-	      <p>{{ skill.skill.note }}</p>
+	      <p>{{ skill.skill.note|safe }}</p>
 	      {% endif %}
           </div>
         </div>
@@ -124,7 +124,7 @@
 		{{ form.skill_type(class_="form-control") }}
 		{{ form.bonus(class_="form-control", placeholder="Class Bonus") }}
 		{{ form.skills(class_="form-control", id="skill_list", height="40px", width="30px") }}
-		<span id="test_out">output</span>
+		<!--<span id="test_out">output</span>-->
           </div>
           <div class="modal-footer">
                 <button type="submit" class="btn btn-danger">Add Skills</button>

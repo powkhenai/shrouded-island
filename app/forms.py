@@ -32,6 +32,7 @@ class NewSkillForm(FlaskForm):
     per_level = IntegerField('Per Level', validators=[DataRequired()])
     description = TextAreaField('description', validators=[DataRequired()])
     note = TextAreaField('note', validators=[Optional(strip_whitespace=False)])
+    preqs = SelectMultipleField(u'Skill Prereqs', coerce=int, validators=[Optional(strip_whitespace=False)])
 
 class AddSkillToChar(FlaskForm):
     category = SelectField('Skill Category', coerce=int)
