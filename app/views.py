@@ -4,7 +4,7 @@ from flask import Flask, render_template, session, redirect, url_for, request, f
 from flask.json import dumps
 from flask_login import login_user, logout_user, current_user, login_required
 from .forms import LoginForm, NewCharForm, NewSkillForm, AddSkillToChar, ChangePasswordForm
-from .models import User, Character, Skill, SkillCategory, CharSkills, Alignment
+from .models import User, Character, Skill, SkillCategory, CharSkills, Alignment, SkillPreqs
 
 @app.before_request
 def before_request():
@@ -65,9 +65,16 @@ def skill_page(char_id):
         return redirect(url_for('index'))
     if form.validate_on_submit():
         for skill_id in form.skills.data:
-            new_skill = CharSkills(skill_type=form.skill_type.data, class_bonus=form.bonus.data)
-            new_skill.skill=Skill.query.get(skill_id)
-            new_skill.character=character
+            skill_check = CharSkills.query.get((char_id, skill_id))
+            if not skill_check:
+                new_skill = CharSkills(skill_type=form.skill_type.data, class_bonus=form.bonus.data)
+                new_skill.skill=Skill.query.get(skill_id)
+                new_skill.character=character
+                for preq in new_skill.skill.preqs:
+                    preq_check = CharSkills.query.get((char_id, preq.preq.id))
+                    if not preq_check:
+                        flash("Missing %s" % preq.preq.name)
+                        return redirect(url_for('skill_page', char_id=char_id))
         db.session.commit()
         return redirect(url_for('skill_page', char_id=char_id))
     else:
@@ -117,12 +124,19 @@ def newChar():
 def newSkill():
     user = g.user
     form = NewSkillForm()
-    form.category.choices = [(s.id, s.name) for s in SkillCategory.query.order_by('name')]
+    form.category.choices = [(c.id, c.name) for c in SkillCategory.query.order_by('name')]
+    form.preqs.choices = [(s.id, s.name) for s in Skill.query.order_by('name')]
     if form.validate_on_submit():
         skill = Skill(name=form.name.data, description=form.description.data, skill_category=form.category.data,
                 base=form.base.data, per_level=form.per_level.data, note=form.note.data)
         db.session.add(skill)
         db.session.commit()
+        for preq_id in form.preqs.data:
+            preq = SkillPreqs()
+            preq.skill = skill
+            preq.preq = Skill.query.get(preq_id)
+            db.session.add(preq)
+            db.session.commit()
         flash("Skill: %s added to the system" % (skill.name))
         return redirect(url_for('newSkill'))
     if request.method == 'POST':
