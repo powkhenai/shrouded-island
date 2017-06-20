@@ -60,7 +60,7 @@ def skill_page(char_id):
     form.category.choices.extend([(c.id, c.name) for c in SkillCategory.query.order_by('name')])
     form.skills.choices = []
     if request.method == 'POST':
-        form.skills.choices = [(s.id, s.name) for s in Skill.query.filter_by(skill_category=form.category.data)]
+        form.skills.choices = [(s.id, s.name) for s in Skill.query.filter_by(skill_category=form.category.data).order_by('name').all()]
     if character.player != user:
         return redirect(url_for('index'))
     if form.validate_on_submit():
@@ -172,7 +172,7 @@ def load_user(id):
 @app.route('/db/<category>/skills')
 @login_required
 def getSkillbyCategory(category):
-    skill_array = (Skill.query.filter_by(skill_category=category).all())
+    skill_array = (Skill.query.filter_by(skill_category=category).order_by('name').all())
     print dumps(skill_array)
     ret_data = jsonify('{"skills": %s}' % dumps(skill_array))
     return ret_data
