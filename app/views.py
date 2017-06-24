@@ -25,7 +25,7 @@ def signin():
         #flash('Token="%s", remember_me=%s' % 
         #(form.login_token.data, str(form.remember_me.data)))
         user = User.query.filter_by(name=form.name.data).first()
-        if user.login_token == unicode(hashlib.sha256(form.login_token.data).hexdigest()):
+        if user and user.login_token == unicode(hashlib.sha256(form.login_token.data).hexdigest()):
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('index'))
         else:
@@ -101,7 +101,7 @@ def rmChar(char_id):
 def newChar():
     user = g.user
     form = NewCharForm()
-    form.alignment.choices = [(c.id, c.name) for c in Alignment.query.order_by('name')]
+    form.alignment.choices = [(c.id, "%s (%s)"% (c.name, c.category)) for c in Alignment.query.order_by('name')]
     if form.validate_on_submit():
         character = Character(first_name=form.first_name.data, last_name=form.last_name.data,
                               sex=form.sex.data, height=form.height.data, weight=form.weight.data,
