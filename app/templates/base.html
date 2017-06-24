@@ -7,10 +7,10 @@
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	{% block head %}
 	<title>Rifts App</title>
-	<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="/static/bootstrap-original/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="/static/base.css" rel="stylesheet"/>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/static/bootstrap-original/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
 	    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 	</script>   
@@ -91,13 +91,5 @@
 		{% endblock %}
 	    </div>
 	</div>
-	<!--
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="/static/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript">
-	    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-	</script>   
-	<script src="/static/local.js"></script>
-	-->
     </body>
 </html>
