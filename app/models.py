@@ -59,7 +59,7 @@ class SkillCategory(db.Model):
 
 class Skill(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(150))
+    name = db.Column(db.String(150), unique=True)
     description = db.Column(db.String())
     note =db.Column(db.String())
     skill_category = db.Column(db.Integer, db.ForeignKey('skill_category.id'))
@@ -79,6 +79,7 @@ class Character(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     first_name = db.Column(db.String(150))
     last_name = db.Column(db.String(150))
+    sex = db.Column(db.String(1))
     height = db.Column(db.Integer)
     weight = db.Column(db.Integer)
     age = db.Column(db.Integer)
