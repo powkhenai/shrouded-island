@@ -35,9 +35,17 @@
 		<br>
 		<b>Occupation: </b> {{ character.occupation }}
 		<br>
-		<b>Alignment: </b> {{ character.alignment }}
+		<b>Alignment: </b> {{ character.align.name }} ({{ character.align.category }})
 	    </div>
 	    <div class="col-xs-6 col-md-6" style="background:green">
+		<b>Level:</b> {{ character.lvl }}
+		<a role="button" class="btn btn-primary btn-xs" href="/character/{{ character.id }}/lvl/dn">
+		    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+		</a>
+		<a role="button" class="btn btn-primary btn-xs" href="/character/{{ character.id }}/lvl/up">
+		    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		</a>
+		<br>
 		{% set stats = ['iq', 'me', 'ma', 'ps', 'pp', 'pe', 'pb', 'spd'] %}
 		{% for stat in stats %}
 		<b>{{ stat| upper }}:</b> {{ character[stat] }}

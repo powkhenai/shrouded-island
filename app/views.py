@@ -1,8 +1,10 @@
 import hashlib
+import psycopg2
 from app import app, db, lm
 from flask import Flask, render_template, session, redirect, url_for, request, flash, g, jsonify
 from flask.json import dumps
 from flask_login import login_user, logout_user, current_user, login_required
+from sqlalchemy import exc
 from .forms import LoginForm, NewCharForm, NewSkillForm, AddSkillToChar, ChangePasswordForm
 from .models import User, Character, Skill, SkillCategory, CharSkills, Alignment, SkillPreqs
 
@@ -25,7 +27,7 @@ def signin():
         #flash('Token="%s", remember_me=%s' % 
         #(form.login_token.data, str(form.remember_me.data)))
         user = User.query.filter_by(name=form.name.data).first()
-        if user.login_token == unicode(hashlib.sha256(form.login_token.data).hexdigest()):
+        if user and user.login_token == unicode(hashlib.sha256(form.login_token.data).hexdigest()):
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('index'))
         else:
@@ -101,12 +103,13 @@ def rmChar(char_id):
 def newChar():
     user = g.user
     form = NewCharForm()
-    form.alignment.choices = [(c.id, c.name) for c in Alignment.query.order_by('name')]
+    form.alignment.choices = [(c.id, "%s (%s)"% (c.name, c.category)) for c in Alignment.query.order_by('name')]
     if form.validate_on_submit():
         character = Character(first_name=form.first_name.data, last_name=form.last_name.data,
                               sex=form.sex.data, height=form.height.data, weight=form.weight.data,
                               age=form.age.data, hp=form.hp.data,
-                              exp=form.exp.data, iq=form.iq.data,
+                              exp=form.exp.data, lvl=1,
+                              iq=form.iq.data,
                               me=form.me.data, ma=form.ma.data,
                               ps=form.ps.data, pp=form.pp.data,
                               pe=form.pe.data, pb=form.pb.data,
@@ -127,10 +130,14 @@ def newSkill():
     form.category.choices = [(c.id, c.name) for c in SkillCategory.query.order_by('name')]
     form.preqs.choices = [(s.id, s.name) for s in Skill.query.order_by('name')]
     if form.validate_on_submit():
-        skill = Skill(name=form.name.data, description=form.description.data, skill_category=form.category.data,
-                base=form.base.data, per_level=form.per_level.data, note=form.note.data)
-        db.session.add(skill)
-        db.session.commit()
+        try:
+            skill = Skill(name=form.name.data, description=form.description.data, skill_category=form.category.data,
+                    base=form.base.data, per_level=form.per_level.data, note=form.note.data)
+            db.session.add(skill)
+            db.session.commit()
+        except exc.IntegrityError:
+            flash("Skill: %s already exists in the system" % (skill.name))
+            return redirect(url_for('newSkill'))
         for preq_id in form.preqs.data:
             preq = SkillPreqs()
             preq.skill = skill
@@ -187,3 +194,20 @@ def remSkillFromChar(char_id, skill_id):
     db.session.delete(charskill)
     db.session.commit()
     return redirect(url_for('skill_page', char_id=char_id))
+
+@app.route('/character/<char_id>/lvl/<updn>')
+@login_required
+def alterLevel(char_id, updn):
+    user=g.user
+    char = Character.query.get(char_id)
+    if user != char.player:
+        return redirect(url_for('index'))
+    if char.lvl == None:
+        char.lvl = 1
+    if updn == 'up':
+        char.lvl += 1
+        db.session.commit()
+    elif updn == 'dn' and char.lvl > 1:
+        char.lvl -= 1
+        db.session.commit()
+    return redirect(url_for('show_char', char_id=char_id))

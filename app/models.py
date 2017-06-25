@@ -85,6 +85,7 @@ class Character(db.Model):
     age = db.Column(db.Integer)
     hp = db.Column(db.Integer)
     exp = db.Column(db.Integer)
+    lvl = db.Column(db.Integer)
     iq = db.Column(db.Integer)
     me = db.Column(db.Integer)
     ma = db.Column(db.Integer)
