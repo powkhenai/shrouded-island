@@ -9,9 +9,6 @@
     <div class="row">
 	<div class="col-xs-12 well">
 	    <h2>{{ character.first_name }} {{ character.last_name }}</h2>
-	    <form>
-		<input id="current_level" placeholder="Level"/>
-	    </form>
 	    <div class="row">
 		{% set skillgroups = [ ('OCC','O.C.C. Skills'), ('REL','O.C.C. Related Skills'), ('SEC','Secondary Skills')] %}
 		{% for (key, value) in skillgroups %}
@@ -26,23 +23,20 @@
 			<div id="total{{ skill.skill.id }}" class="col-xs-2">
 			    <script>
 				$(document).ready(function() {
-				$('#current_level').change(function()
-					{ 
-					    var iqbonus = 0;
-					    if ({{ character.iq }} >= 16)
-					    {
-						iqbonus = {{ character.iq }}*1 - 14;
-					    }
-					    var skilllevel = ($('#current_level').val()*1-1) * {{ skill.skill.per_level }};
-					    var skilltotal = iqbonus + skilllevel + {{ skill.skill.base }}*1 {% if skill.class_bonus %}+ {{ skill.class_bonus }}*1{% endif %};
-					    $("#total{{ skill.skill.id }}").html(skilltotal + "%")
-					    $("#skill_breakdown{{ skill.skill.id }}").html(
-						    "Base: {{ skill.skill.base }}"
-						    + " Per Level: " + skilllevel
-						    + " O.C.C. Bonus: {{ skill.class_bonus }}"
-						    + " I.Q. Bonus: " + iqbonus
-						    )
-					});
+				    var iqbonus = 0;
+				    if ({{ character.iq }} >= 16)
+				    {
+					iqbonus = {{ character.iq }}*1 - 14;
+				    }
+				    var skilllevel = ({{ character.lvl }}*1-1) * {{ skill.skill.per_level }};
+				    var skilltotal = iqbonus + skilllevel + {{ skill.skill.base }}*1 {% if skill.class_bonus %}+ {{ skill.class_bonus }}*1{% endif %};
+				    $("#total{{ skill.skill.id }}").html(skilltotal + "%")
+				    $("#skill_breakdown{{ skill.skill.id }}").html(
+					    "Base: {{ skill.skill.base }}"
+					    + " Per Level: " + skilllevel
+					    + " O.C.C. Bonus: {{ skill.class_bonus }}"
+					    + " I.Q. Bonus: " + iqbonus
+					    )
 				});
 			    </script>
 			</div>
