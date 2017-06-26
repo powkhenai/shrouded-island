@@ -120,6 +120,9 @@ def newChar():
         flash('User: %s ID: %d' % (user.name, user.id))
         flash('%s %s %d' % (form.first_name.data, form.last_name.data, form.age.data))
         return redirect(url_for('index'))
+    else:
+        for err in form.errors:
+            flash(err)
     return render_template('newchar.html', title='New Character', form=form)
 
 @app.route('/newskill', methods=['GET', 'POST'])
