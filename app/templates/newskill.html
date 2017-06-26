@@ -6,18 +6,33 @@
 {% endblock %}
    
 {% block content %}
-  <form class="form-signin" action="" method="post" name="newchar">
+  <form class="form" action="" method="post" name="newskill">
       {{ form.hidden_tag() }}
     <h2 class="form-signin-heading">New Skill Entry</h2>
-    {{ form.category(class_="form-control") }}
-    {{ form.name(class_="form-control", placeholder="Name") }}
-    {{ form.base(class_="form-control", placeholder="Base %") }}
-    {{ form.per_level(class_="form-control", placeholder="Per Level %") }}
-    {{ form.description(class_="form-control", placeholder="Description") }}
-    {{ form.note(class_="form-control", placeholder="Note") }}
-    Hold the ctrl (or cmd) button to select multiple prerequisites
-    {{ form.preqs(class_="form-control") }}
-    
+    <div class="form-group">
+	{{ form.name(class_="form-control", placeholder="Name") }}
+    </div>
+    <div class="form-group col-xs-4">
+	{{ form.category(class_="form-control") }}
+    </div>
+    <div class="form-group col-xs-4">
+	{{ form.base(class_="form-control", placeholder="Base %", pattern="[0-9]*") }}
+    </div>
+    <div class="form-group col-xs-4">
+	{{ form.per_level(class_="form-control", placeholder="Per Level %", pattern="[0-9]*") }}
+    </div>
+    <div class="form-group">
+	{{ form.description(class_="form-control", placeholder="Description") }}
+    </div>
+    <div class="form-group">
+	{{ form.note(class_="form-control", placeholder="Note") }}
+    </div>
+    <div class="form-group">
+	Hold the ctrl (or cmd) button to select multiple prerequisites
+	{{ form.preqs(class_="form-control") }}
+    </div>
+    <div class="form-group">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Add Skill</button>
+    </div>
   </form>
 {% endblock %}

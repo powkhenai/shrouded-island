@@ -24,14 +24,12 @@ def signin():
     form = LoginForm()
     if form.validate_on_submit():
         session['remember_me'] = form.remember_me.data
-        #flash('Token="%s", remember_me=%s' % 
-        #(form.login_token.data, str(form.remember_me.data)))
         user = User.query.filter_by(name=form.name.data).first()
         if user and user.login_token == unicode(hashlib.sha256(form.login_token.data).hexdigest()):
             login_user(user, remember=form.remember_me.data)
             return redirect(url_for('index'))
         else:
-            flash('Invalid login information')
+            flash('Invalid login information', "danger")
     return render_template('signin.html', title='Sign In', form=form)
 
 @app.route('/characters')
@@ -75,7 +73,7 @@ def skill_page(char_id):
                 for preq in new_skill.skill.preqs:
                     preq_check = CharSkills.query.get((char_id, preq.preq.id))
                     if not preq_check:
-                        flash("Missing %s" % preq.preq.name)
+                        flash("Missing %s" % preq.preq.name, "danger")
                         return redirect(url_for('skill_page', char_id=char_id))
         db.session.commit()
         return redirect(url_for('skill_page', char_id=char_id))
@@ -117,12 +115,11 @@ def newChar():
                               align=Alignment.query.get(form.alignment.data))
         db.session.add(character)
         db.session.commit()
-        flash('User: %s ID: %d' % (user.name, user.id))
-        flash('%s %s %d' % (form.first_name.data, form.last_name.data, form.age.data))
+        flash('New Character %s %s added to the system!' % (form.first_name.data, form.last_name.data), "success")
         return redirect(url_for('index'))
     else:
         for err in form.errors:
-            flash(err)
+            flash(err, "danger")
     return render_template('newchar.html', title='New Character', form=form)
 
 @app.route('/newskill', methods=['GET', 'POST'])
@@ -139,7 +136,7 @@ def newSkill():
             db.session.add(skill)
             db.session.commit()
         except exc.IntegrityError:
-            flash("Skill: %s already exists in the system" % (skill.name))
+            flash("Skill: %s already exists in the system" % (skill.name), "danger")
             return redirect(url_for('newSkill'))
         for preq_id in form.preqs.data:
             preq = SkillPreqs()
@@ -147,12 +144,8 @@ def newSkill():
             preq.preq = Skill.query.get(preq_id)
             db.session.add(preq)
             db.session.commit()
-        flash("Skill: %s added to the system" % (skill.name))
+        flash("Skill: %s added to the system" % (skill.name), "success")
         return redirect(url_for('newSkill'))
-    if request.method == 'POST':
-        flash(form.errors)
-        flash(form.category.choices)
-        flash(form.category.data)
     return render_template('newskill.html', title='New Skill', user=user, form=form)
 
 @app.route('/logout')

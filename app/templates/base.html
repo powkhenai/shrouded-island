@@ -78,13 +78,13 @@
 	      </div><!-- /.container-fluid -->
 	    </nav>
 	    <div id="content">
-		{% with messages = get_flashed_messages() %}
+		{% with messages = get_flashed_messages(with_categories=true) %}
 		    {% if messages %}
-		    <ul>
-		    {% for message in messages %}
-			<li>{{ message }} </li>
+		    {% for class, message in messages %}
+		    <div class="alert alert-{{ class }}" role="alert">
+			{{ message }}
+		    </div>
 		    {% endfor %}
-		    </ul>
 		    {% endif %}
 		{% endwith %}
 		{% block content %}
