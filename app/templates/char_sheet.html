@@ -9,7 +9,7 @@
     <div class="row">
 	<div class="col-xs-12 col-md-8 well">
 	    <div class="row">
-		<div class="col-xs-12 col-md-4">
+		<div class="col-xs-12">
 		    <h2 data-toggle="popover" 
 		    data-placement="right"
 		    data-content="{{ character.align.description }}"
@@ -17,6 +17,8 @@
 		    data-html="true">
 			{{ character.first_name }} {{ character.last_name }}</h2>
 		</div>
+	    </div>
+	    <div class="row">
 		<div class="col-xs-6 col-md-4">
 		    <h4> Human </h4>
 		</div>
@@ -24,8 +26,8 @@
 		    <h4> TechnoWizard </h4>
 		</div>
 	    </div>
-	    <div class="col-xs-6 col-md-6" style="background:gray">
-		<b>Sex: </b> {{ character.sex }}
+	    <div class="col-xs-6 col-md-6">
+		<b>Sex: </b> {% if character.sex == "f" %}Female{% elif character.sex == "m"%}Male{% endif %}
 		<br>
 		<b>Age: </b> {{ character.age }}
 		<br>
@@ -37,7 +39,7 @@
 		<br>
 		<b>Alignment: </b> {{ character.align.name }} ({{ character.align.category }})
 	    </div>
-	    <div class="col-xs-6 col-md-6" style="background:green">
+	    <div class="col-xs-6 col-md-6">
 		<b>Level:</b> {{ character.lvl }}
 		<a role="button" class="btn btn-primary btn-xs" href="/character/{{ character.id }}/lvl/dn">
 		    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
@@ -62,9 +64,11 @@
     </div>
 
     <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+    <!--
     <div class="row">
 	<div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
 	<div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
 	<div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
     </div> 
+    -->
 {% endblock %}
