@@ -6,32 +6,74 @@
 {% endblock %}
    
 {% block content %}
-  <form class="form-signin" action="" method="post" name="newchar">
+  <form action="" method="post" name="newchar">
       {{ form.hidden_tag() }}
-    {% for error in form.first_name.errors %}
-	<div class="alert alert-danger" role="alert">Malformed login info.</div>
-    {% endfor %}
     <h2 class="form-signin-heading">New Character</h2>
-    <label for="fname" class="sr-only">First Name</label>
-    {{ form.first_name(class_="form-control", placeholder="First Name") }}
-    <label for="password" class="sr-only">Password</label>
-    {{ form.last_name(class_="form-control", placeholder="Last Name") }}
-    {{ form.sex(class_="form-control") }}
-    {{ form.alignment(class_="form-control", placeholder="Alignment") }}
-    {{ form.height(class_="form-control", placeholder="Height", type="text", pattern="[0-9]*") }}
-    {{ form.weight(class_="form-control", placeholder="Weight", type="text", pattern="[0-9]*") }}
-    {{ form.age(class_="form-control", placeholder="Age", type="text", pattern="[0-9]*") }}
-    {{ form.hp(class_="form-control", placeholder="HP", type="text", pattern="[0-9]*") }}
-    {{ form.exp(class_="form-control", placeholder="EXP", type="text", pattern="[0-9]*") }}
-    {{ form.iq(class_="form-control", placeholder="I.Q.", type="text", pattern="[0-9]*") }}
-    {{ form.me(class_="form-control", placeholder="M.E.", type="text", pattern="[0-9]*") }}
-    {{ form.ma(class_="form-control", placeholder="M.A.", type="text", pattern="[0-9]*") }}
-    {{ form.ps(class_="form-control", placeholder="P.S.", type="text", pattern="[0-9]*") }}
-    {{ form.pp(class_="form-control", placeholder="P.P.", type="text", pattern="[0-9]*") }}
-    {{ form.pe(class_="form-control", placeholder="P.E.", type="text", pattern="[0-9]*") }}
-    {{ form.pb(class_="form-control", placeholder="P.B.", type="text", pattern="[0-9]*") }}
-    {{ form.spd(class_="form-control", placeholder="SPD", type="text", pattern="[0-9]*") }}
-
+    <div class="row">
+	<div class="col-sm-6">
+	    <div class="form-group">
+		<label for="fname" class="sr-only">First Name</label>
+		{{ form.first_name(class_="form-control", placeholder="First Name") }}
+	    </div>
+	    <div class="form-group">
+		<label for="password" class="sr-only">Password</label>
+		{{ form.last_name(class_="form-control", placeholder="Last Name") }}
+	    </div>
+	    <div class="row">
+		<div class="col-sm-6">
+		    <div class="form-group">
+			{{ form.sex(class_="form-control") }}
+		    </div>
+		</div>
+		<div class="col-sm-6">
+		    <div class="form-group">
+			{{ form.alignment(class_="form-control", placeholder="Alignment") }}
+		    </div>
+		</div>
+	    </div>
+	    <div class="form-group">
+		{{ form.height(class_="form-control", placeholder="Height", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.weight(class_="form-control", placeholder="Weight", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.age(class_="form-control", placeholder="Age", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.hp(class_="form-control", placeholder="HP", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.exp(class_="form-control", placeholder="EXP", type="text", pattern="[0-9]*") }}
+	    </div>
+	</div>
+	<div class="col-sm-6">
+	    <div class="form-group">
+		{{ form.iq(class_="form-control", placeholder="I.Q.", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.me(class_="form-control", placeholder="M.E.", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.ma(class_="form-control", placeholder="M.A.", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.ps(class_="form-control", placeholder="P.S.", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.pp(class_="form-control", placeholder="P.P.", type="text", pattern="[0-9]*") }}
+	    </div>   
+	    <div class="form-group">
+		{{ form.pe(class_="form-control", placeholder="P.E.", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.pb(class_="form-control", placeholder="P.B.", type="text", pattern="[0-9]*") }}
+	    </div>  
+	    <div class="form-group">
+		{{ form.spd(class_="form-control", placeholder="SPD", type="text", pattern="[0-9]*") }}
+	    </div>
+	</div>
+    </div>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Create</button>
   </form>
 {% endblock %}
