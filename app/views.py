@@ -146,6 +146,9 @@ def newSkill():
             db.session.commit()
         flash("Skill: %s added to the system" % (skill.name), "success")
         return redirect(url_for('newSkill'))
+    else:
+        for err in form.errors:
+            flash(err, "danger")
     return render_template('newskill.html', title='New Skill', user=user, form=form)
 
 @app.route('/logout')
