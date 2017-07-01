@@ -30,6 +30,10 @@
 				    }
 				    var skilllevel = ({{ character.lvl }}*1-1) * {{ skill.skill.per_level }};
 				    var skilltotal = iqbonus + skilllevel + {{ skill.skill.base }}*1 {% if skill.class_bonus %}+ {{ skill.class_bonus }}*1{% endif %};
+				    if (skilltotal > 98)
+				    {
+					skilltotal = 98;
+				    }
 				    $("#total{{ skill.skill.id }}").html(skilltotal + "%")
 				    $("#skill_breakdown{{ skill.skill.id }}").html(
 					    "Base: {{ skill.skill.base }}"

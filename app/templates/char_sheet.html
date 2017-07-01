@@ -10,12 +10,7 @@
 	<div class="col-xs-12 col-md-8 well">
 	    <div class="row">
 		<div class="col-xs-12">
-		    <h2 data-toggle="popover" 
-		    data-placement="right"
-		    data-content="{{ character.align.description }}"
-		    title="{{ character.align.name }}" id="char_name"
-		    data-html="true">
-			{{ character.first_name }} {{ character.last_name }}</h2>
+		    <h2 id="char_name">{{ character.first_name }} {{ character.last_name }}</h2>
 		</div>
 	    </div>
 	    <div class="row">
@@ -38,6 +33,9 @@
 		<b>Occupation: </b> {{ character.occupation }}
 		<br>
 		<b>Alignment: </b> {{ character.align.name }} ({{ character.align.category }})
+		<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#align-modal">
+		    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+		</button>
 	    </div>
 	    <div class="col-xs-6 col-md-6">
 		<b>Level:</b> {{ character.lvl }}
@@ -63,6 +61,24 @@
 	</div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="align-modal" tabindex="-1" role="dialog" aria-labelledby="Alignment Modal">
+      <div class="modal-dialog" role="document">
+	<div class="modal-content">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	    <h4 class="modal-title" id="align-modal-label">{{ character.align.name }}</h4>
+	    <p class="modal-title" id="align-modal-sub">({{ character.align.category }})</p>
+	  </div>
+	  <div class="modal-body">
+	    {{ character.align.description| safe }}	
+	  </div>
+	  <div class="modal-footer">
+	    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	  </div>
+	</div>
+      </div>
+    </div>
     <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
     <!--
     <div class="row">
