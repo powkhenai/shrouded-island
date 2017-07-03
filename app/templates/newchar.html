@@ -16,19 +16,21 @@
 		{{ form.first_name(class_="form-control", placeholder="First Name") }}
 	    </div>
 	    <div class="form-group">
-		<label for="password" class="sr-only">Password</label>
+		<label for="password" class="sr-only">Last Name</label>
 		{{ form.last_name(class_="form-control", placeholder="Last Name") }}
 	    </div>
+	    <div class="form-group">
+		{{ form.race(class_="form-control", placeholder="Race") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.occ(class_="form-control", placeholder="O.C.C") }}
+	    </div>
 	    <div class="row">
-		<div class="col-sm-6">
-		    <div class="form-group">
-			{{ form.sex(class_="form-control") }}
-		    </div>
+		<div class="form-group col-sm-6">
+		    {{ form.sex(class_="form-control") }}
 		</div>
-		<div class="col-sm-6">
-		    <div class="form-group">
-			{{ form.alignment(class_="form-control", placeholder="Alignment") }}
-		    </div>
+		<div class="form-group col-sm-6">
+		    {{ form.alignment(class_="form-control", placeholder="Alignment") }}
 		</div>
 	    </div>
 	    <div class="form-group">
@@ -40,14 +42,19 @@
 	    <div class="form-group">
 		{{ form.age(class_="form-control", placeholder="Age", type="text", pattern="[0-9]*") }}
 	    </div>
-	    <div class="form-group">
-		{{ form.hp(class_="form-control", placeholder="HP", type="text", pattern="[0-9]*") }}
-	    </div>
-	    <div class="form-group">
-		{{ form.exp(class_="form-control", placeholder="EXP", type="text", pattern="[0-9]*") }}
+	    <div class="row">
+		<div class="form-group col-sm-6">
+		    {{ form.hp(class_="form-control", placeholder="HP", type="text", pattern="[0-9]*") }}
+		</div>
+		<div class="form-group col-sm-6">
+		    {{ form.sdc(class_="form-control", placeholder="SDC, MD characters enter 0, use HP", type="text", pattern="[0-9]*") }}
+		</div>
 	    </div>
 	</div>
 	<div class="col-sm-6">
+	    <div class="form-group">
+		{{ form.exp(class_="form-control", placeholder="EXP", type="text", pattern="[0-9]*") }}
+	    </div>
 	    <div class="form-group">
 		{{ form.iq(class_="form-control", placeholder="I.Q.", type="text", pattern="[0-9]*") }}
 	    </div>

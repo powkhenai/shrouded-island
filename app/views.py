@@ -105,7 +105,8 @@ def newChar():
     if form.validate_on_submit():
         character = Character(first_name=form.first_name.data, last_name=form.last_name.data,
                               sex=form.sex.data, height=form.height.data, weight=form.weight.data,
-                              age=form.age.data, hp=form.hp.data,
+                              race=form.race.data, occ=form.occ.data, age=form.age.data,
+                              hp=form.hp.data, sdc=form.sdc.data,
                               exp=form.exp.data, lvl=1,
                               iq=form.iq.data,
                               me=form.me.data, ma=form.ma.data,
