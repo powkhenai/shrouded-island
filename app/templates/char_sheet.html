@@ -15,10 +15,10 @@
 	    </div>
 	    <div class="row">
 		<div class="col-xs-6 col-md-4">
-		    <h4> Human </h4>
+		    <h4> {{ character.race }} </h4>
 		</div>
 		<div class="col-xs-6 col-md-4">
-		    <h4> TechnoWizard </h4>
+		    <h4> {{ character.occ }} </h4>
 		</div>
 	    </div>
 	    <div class="col-xs-6 col-md-6">
@@ -54,7 +54,7 @@
 	    </div>
 	</div>
 	<div class="col-xs-6 col-md-4">
-	    <b>HP</b>: {{ character.hp }}
+	    <b>HP</b>: {{ character.hp }}  <b>SDC</b>: {{ character.sdc }}
 	    <div class="progress">
 		<div class="progress-bar progress-bar-success" style="width: 60%"></div>
 		<div class="progress-bar progress-bar-danger" style="width: 40%"></div>

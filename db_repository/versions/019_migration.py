@@ -5,14 +5,30 @@ from migrate import *
 from migrate.changeset import schema
 pre_meta = MetaData()
 post_meta = MetaData()
-skill = Table('skill', post_meta,
+character = Table('character', post_meta,
     Column('id', Integer, primary_key=True, nullable=False),
-    Column('name', String(length=150)),
-    Column('description', String),
-    Column('note', String),
-    Column('skill_category', Integer),
-    Column('base', Integer),
-    Column('per_level', Integer),
+    Column('first_name', String(length=150)),
+    Column('last_name', String(length=150)),
+    Column('race', String(length=150)),
+    Column('occ', String(length=150)),
+    Column('sex', String(length=1)),
+    Column('height', Integer),
+    Column('weight', Integer),
+    Column('age', Integer),
+    Column('hp', Integer),
+    Column('sdc', Integer),
+    Column('exp', Integer),
+    Column('lvl', Integer),
+    Column('iq', Integer),
+    Column('me', Integer),
+    Column('ma', Integer),
+    Column('ps', Integer),
+    Column('pp', Integer),
+    Column('pe', Integer),
+    Column('pb', Integer),
+    Column('spd', Integer),
+    Column('alignment', Integer),
+    Column('user_id', Integer),
 )
 
 
@@ -21,11 +37,15 @@ def upgrade(migrate_engine):
     # migrate_engine to your metadata
     pre_meta.bind = migrate_engine
     post_meta.bind = migrate_engine
-    post_meta.tables['skill'].columns['name'].alter(nullable=False, unique=True)
+    post_meta.tables['character'].columns['occ'].create()
+    post_meta.tables['character'].columns['race'].create()
+    post_meta.tables['character'].columns['sdc'].create()
 
 
 def downgrade(migrate_engine):
     # Operations to reverse the above upgrade go here.
     pre_meta.bind = migrate_engine
     post_meta.bind = migrate_engine
-    post_meta.tables['skill'].columns['name'].alter(type=String(150))
+    post_meta.tables['character'].columns['occ'].drop()
+    post_meta.tables['character'].columns['race'].drop()
+    post_meta.tables['character'].columns['sdc'].drop()
