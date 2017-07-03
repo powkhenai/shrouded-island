@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, PasswordField, IntegerField, SelectField, TextAreaField, SelectMultipleField
-from wtforms.validators import DataRequired, Optional, EqualTo
+from wtforms.validators import DataRequired, Optional, EqualTo, InputRequired
 
 class LoginForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
@@ -29,8 +29,8 @@ class NewCharForm(FlaskForm):
 class NewSkillForm(FlaskForm):
     category = SelectField('Skill Category', coerce=int)
     name = StringField('name', validators=[DataRequired()])
-    base = IntegerField('base', validators=[DataRequired()])
-    per_level = IntegerField('Per Level', validators=[DataRequired()])
+    base = IntegerField('base', validators=[InputRequired()])
+    per_level = IntegerField('Per Level', validators=[InputRequired()])
     description = TextAreaField('description', validators=[DataRequired()])
     note = TextAreaField('note', validators=[Optional(strip_whitespace=False)])
     preqs = SelectMultipleField(u'Skill Prereqs', coerce=int, validators=[Optional(strip_whitespace=False)])
