@@ -123,6 +123,25 @@ def newChar():
             flash(err, "danger")
     return render_template('newchar.html', title='New Character', form=form)
 
+@app.route('/character/<char_id>/edit', methods=['GET', 'POST'])
+@login_required
+def modChar(char_id):
+    user = g.user
+    char = Character.query.get(char_id)
+    if char.player != user:
+        return redirect(url_for('index'))
+    form = NewCharForm(obj=char)
+    form.alignment.choices = [(c.id, "%s (%s)" % (c.name, c.category)) for c in Alignment.query.order_by('name')]
+    if form.validate_on_submit():
+        form.populate_obj(char)
+        db.session.commit()
+        return redirect(url_for('show_char', char_id=char_id))
+    elif request.method == 'POST':
+        for err in form.errors:
+            flash(err, "danger")
+
+    return render_template('editchar.html', title='Edit Character', form=form)
+
 @app.route('/newskill', methods=['GET', 'POST'])
 @login_required
 def newSkill():

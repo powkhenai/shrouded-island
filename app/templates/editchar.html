@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <link href="/static/signin.css" rel="stylesheet">
+{% endblock %}
+   
+{% block content %}
+  <form action="" method="post" name="editchar">
+      {{ form.hidden_tag() }}
+    <h2 class="form-signin-heading">Edit Character</h2>
+    <div class="row">
+	<div class="col-sm-6">
+	    <div class="form-group">
+		<label for="fname" class="sr-only">First Name</label>
+		{{ form.first_name(class_="form-control", placeholder="First Name") }}
+	    </div>
+	    <div class="form-group">
+		<label for="password" class="sr-only">Last Name</label>
+		{{ form.last_name(class_="form-control", placeholder="Last Name") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.race(class_="form-control", placeholder="Race") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.occ(class_="form-control", placeholder="O.C.C") }}
+	    </div>
+	    <div class="row">
+		<div class="form-group col-sm-6">
+		    {{ form.sex(class_="form-control") }}
+		</div>
+		<div class="form-group col-sm-6">
+		    {{ form.alignment(class_="form-control", placeholder="Alignment") }}
+		</div>
+	    </div>
+	    <div class="form-group">
+		{{ form.height(class_="form-control", placeholder="Height in Inches", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.weight(class_="form-control", placeholder="Weight", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.age(class_="form-control", placeholder="Age", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="row">
+		<div class="form-group col-sm-6">
+		    {{ form.hp(class_="form-control", placeholder="HP", type="text", pattern="[0-9]*") }}
+		</div>
+		<div class="form-group col-sm-6">
+		    {{ form.sdc(class_="form-control", placeholder="SDC, MD characters enter 0, use HP", type="text", pattern="[0-9]*") }}
+		</div>
+	    </div>
+	</div>
+	<div class="col-sm-6">
+	    <div class="form-group">
+		{{ form.exp(class_="form-control", placeholder="EXP", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.iq(class_="form-control", placeholder="I.Q.", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.me(class_="form-control", placeholder="M.E.", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.ma(class_="form-control", placeholder="M.A.", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.ps(class_="form-control", placeholder="P.S.", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.pp(class_="form-control", placeholder="P.P.", type="text", pattern="[0-9]*") }}
+	    </div>   
+	    <div class="form-group">
+		{{ form.pe(class_="form-control", placeholder="P.E.", type="text", pattern="[0-9]*") }}
+	    </div>
+	    <div class="form-group">
+		{{ form.pb(class_="form-control", placeholder="P.B.", type="text", pattern="[0-9]*") }}
+	    </div>  
+	    <div class="form-group">
+		{{ form.spd(class_="form-control", placeholder="SPD", type="text", pattern="[0-9]*") }}
+	    </div>
+	</div>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Save Edits</button>
+  </form>
+{% endblock %}
