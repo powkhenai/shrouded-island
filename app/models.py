@@ -1,3 +1,4 @@
+from sqlalchemy.ext.hybrid import hybrid_property
 from app import db
 
 class User(db.Model):
@@ -100,6 +101,13 @@ class Character(db.Model):
     alignment = db.Column(db.Integer, db.ForeignKey('alignment.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     skills = db.relationship('CharSkills', back_populates='character')
+
+    @hybrid_property
+    def calc_height(self):
+        if self.height is not None and self.height > 0:
+            feet = self.height / 12
+            inches = self.height % 12
+            return "%d Ft %d In" % (feet, inches)
 
     def __repr__(self):
         return '<Character %r %r>' % (self.first_name, self.last_name)
