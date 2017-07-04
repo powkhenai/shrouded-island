@@ -29,12 +29,14 @@
 		<br>
 		<b>Age: </b> {{ character.age }}
 		<br>
-		<b>Height: </b> {{ character.height }}
+		<b>Height: </b> {{ character.calc_height }}
 		<br>
-		<b>Weight: </b> {{ character.weight }}
+		<b>Weight: </b> {{ character.weight }} lbs
 		<br>
+		<!--
 		<b>Occupation: </b> {{ character.occupation }}
 		<br>
+		-->
 		<b>Alignment: </b> {{ character.align.name }} ({{ character.align.category }})
 		<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#align-modal">
 		    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
