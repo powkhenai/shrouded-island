@@ -38,7 +38,7 @@ def index():
     user = g.user
     characters = Character.query.filter_by(user_id=user.id).all()
     print characters
-    return render_template('test.html', user=user, characters=characters)
+    return render_template('character_list.html', user=user, characters=characters)
 
 @app.route('/character/<char_id>')
 @login_required
@@ -80,7 +80,7 @@ def skill_page(char_id):
     else:
         for i in form.errors:
             print i
-    return render_template('skills.html', user=user, character=character, form=form)
+    return render_template('char_skills.html', user=user, character=character, form=form)
 
 
 @app.route('/delete_character/<char_id>')
@@ -142,7 +142,7 @@ def modChar(char_id):
 
     return render_template('editchar.html', title='Edit Character', form=form)
 
-@app.route('/newskill', methods=['GET', 'POST'])
+@app.route('/database/newskill', methods=['GET', 'POST'])
 @login_required
 def newSkill():
     user = g.user
@@ -230,3 +230,8 @@ def alterLevel(char_id, updn):
         char.lvl -= 1
         db.session.commit()
     return redirect(url_for('show_char', char_id=char_id))
+
+@app.route('/character/<char_id>/comingsoon/<tab>')
+@login_required
+def comingSoon(char_id, tab):
+    return render_template('char_%s.html' % (tab), character=Character.query.get(char_id))
