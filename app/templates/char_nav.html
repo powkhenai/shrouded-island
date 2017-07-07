@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <ul class="nav nav-tabs">
+	<li role="presentation" {% block main %}{% endblock %}>
+	    {% block main_link %}
+		<a href="/character/{{ character.id }}">Main</a>
+	    {% endblock %}
+	</li>
+	<li role="presentation" {% block skills %}{% endblock %}>
+	    {% block skills_link %}
+		<a href="/character/{{ character.id }}/skills">Skills</a>
+	    {% endblock %}
+	</li>
+	<li role="presentation" {% block combat %}{% endblock %}>
+	    {% block combat_link %}
+		<a href="/character/{{ character.id }}/comingsoon/combat">Combat</a>
+	    {% endblock %}
+	</li>
+	<li role="presentation" {% block inventory %}{% endblock %}>
+	    {% block inventory_link %}
+		<a href="/character/{{ character.id }}/comingsoon/inventory">Inventory</a>
+	    {% endblock %}
+	</li>
+	<li role="presentation" {% block vehicles %}{% endblock %}>
+	    {% block vehicles_link %}
+		<a href="/character/{{ character.id }}/comingsoon/vehicles">Vehicles</a>
+	    {% endblock %}
+	</li>
+	<li role="presentation" {% block notes %}{% endblock %}>
+	    {% block notes_link %}
+		<a href="/character/{{ character.id }}/comingsoon/notes">Notes</a>
+	    {% endblock %}
+	</li>
+    </ul>
+    {% block char_sheet %}{% endblock %}
+{% endblock %}

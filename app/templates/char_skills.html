@@ -1,11 +1,8 @@
-{% extends "base.html" %}
+{% extends "char_nav.html" %}
 
-{% block content %}
-    <ul class="nav nav-tabs">
-	<li role="presentation"><a href="/character/{{ character.id }}">Main</a></li>
-	<li role="presentation" class="active"><a href="#">Skills</a></li>
-	<li role="presentation"><a href="#">Inventory</a></li>
-    </ul>
+{% block skills %}class="active"{% endblock%}
+{% block skills_link %}<a href="#">Skills</a>{% endblock %}
+{% block char_sheet %}
     <div class="row">
 	<div class="col-xs-12 well">
 	    <h2>{{ character.first_name }} {{ character.last_name }}</h2>
@@ -34,13 +31,16 @@
 				    {
 					skilltotal = 98;
 				    }
-				    $("#total{{ skill.skill.id }}").html(skilltotal + "%")
-				    $("#skill_breakdown{{ skill.skill.id }}").html(
-					    "Base: {{ skill.skill.base }}"
-					    + " Per Level: " + skilllevel
-					    + " O.C.C. Bonus: {{ skill.class_bonus }}"
-					    + " I.Q. Bonus: " + iqbonus
-					    )
+				    if ({{ skill.skill.base }} != 0)
+				    {
+					$("#total{{ skill.skill.id }}").html(skilltotal + "%")
+					$("#skill_breakdown{{ skill.skill.id }}").html(
+						"Base: {{ skill.skill.base }}"
+						+ " Per Level: " + skilllevel
+						+ " O.C.C. Bonus: {{ skill.class_bonus }}"
+						+ " I.Q. Bonus: " + iqbonus
+						)
+				    }
 				});
 			    </script>
 			</div>

@@ -1,11 +1,8 @@
-{% extends "base.html" %}
+{% extends "char_nav.html" %}
 
-{% block content %}
-    <ul class="nav nav-tabs">
-	<li role="presentation" class="active"><a href="#">Main</a></li>
-	<li role="presentation"><a href="/character/{{ character.id }}/skills">Skills</a></li>
-	<li role="presentation"><a href="#">Inventory</a></li>
-    </ul>
+{% block main %}class="active"{% endblock %}
+{% block main_link %}<a href="#">Main</a>{% endblock %}
+{% block char_sheet %}
     <div class="row">
 	<div class="col-xs-12 col-md-8 well">
 	    <div class="row">
@@ -59,7 +56,11 @@
 	    </div>
 	</div>
 	<div class="col-xs-6 col-md-4">
-	    <b>HP</b>: {{ character.hp }}  <b>SDC</b>: {{ character.sdc }}
+	    {% if character.sdc == 0 %}
+		<b>MDC</b>: {{ character.hp }}
+	    {% else %}
+		<b>HP</b>: {{ character.hp }}  <b>SDC</b>: {{ character.sdc }}
+	    {% endif %}
 	    <div class="progress">
 		<div class="progress-bar progress-bar-success" style="width: 60%"></div>
 		<div class="progress-bar progress-bar-danger" style="width: 40%"></div>
