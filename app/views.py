@@ -67,7 +67,7 @@ def skill_page(char_id):
         for skill_id in form.skills.data:
             skill_check = CharSkills.query.get((char_id, skill_id))
             if not skill_check:
-                new_skill = CharSkills(skill_type=form.skill_type.data, class_bonus=form.bonus.data)
+                new_skill = CharSkills(skill_type=form.skill_type.data, class_bonus=form.bonus.data, lvl_added=character.lvl)
                 new_skill.skill=Skill.query.get(skill_id)
                 new_skill.character=character
                 for preq in new_skill.skill.preqs:
