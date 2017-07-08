@@ -25,7 +25,7 @@
 				    {
 					iqbonus = {{ character.iq }}*1 - 14;
 				    }
-				    var skilllevel = ({{ character.lvl }}*1-1) * {{ skill.skill.per_level }};
+				    var skilllevel = ({{ character.lvl }}*1-{{ skill.lvl_added }}) * {{ skill.skill.per_level }};
 				    var skilltotal = iqbonus + skilllevel + {{ skill.skill.base }}*1 {% if skill.class_bonus %}+ {{ skill.class_bonus }}*1{% endif %};
 				    if (skilltotal > 98)
 				    {
@@ -37,8 +37,9 @@
 					$("#skill_breakdown{{ skill.skill.id }}").html(
 						"Base: {{ skill.skill.base }}"
 						+ " Per Level: " + skilllevel
-						+ " O.C.C. Bonus: {{ skill.class_bonus }}"
-						+ " I.Q. Bonus: " + iqbonus
+						+ "  O.C.C. Bonus: {{ skill.class_bonus }}"
+						+ "  I.Q. Bonus: " + iqbonus
+						+ "  Added at level: {{ skill.lvl_added }}"
 						)
 				    }
 				});
