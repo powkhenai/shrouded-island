@@ -1,0 +1,26 @@
+{% block movement %}
+<div class="col-xs-4">
+    <h3>Lift/Carry/Throw</h3>
+    <b>Lift: </b> {{ character.lift }} lbs.
+    <br>
+    <b>Carry: </b> {{ character.carry }} lbs.
+    <br>
+    <b>Throw: </b> {{ character.throw[0] }} lbs. {{ character.throw[1] }} ft.
+</div>
+<div class="col-xs-4">
+    <h3>Run</h3>
+    <b>MPH: </b> {{ character.run_mph }} 
+    <br>
+    <b>Ft/Melee: </b> {{ character.run }}
+    <br>
+    <b>Ft/Action: </b> <script>document.write({{ character.run }} / 4)</script>
+</div>
+<div class="col-xs-4">
+    <h3>Swim</h3>
+    <b>MPH: </b>
+    <br>
+    <b>Ft/Melee: </b> 
+    <br>
+    <b>Ft/Action: </b>
+</div>
+{% endblock %}

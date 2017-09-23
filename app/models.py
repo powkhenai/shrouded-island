@@ -120,6 +120,34 @@ class Character(db.Model):
             inches = self.height % 12
             return "%d Ft %d In" % (feet, inches)
 
+    @hybrid_property
+    def carry(self):
+        #TODO:logic for strength type
+        if (self.ps <= 16 and self.ps >= 3):
+            return self.ps * 10
+        elif (self.ps >= 17):
+            return self.ps * 20
+        else:
+            return self.ps * 5
+
+    @hybrid_property
+    def lift(self):
+        return self.carry * 2
+
+    @hybrid_property
+    def throw(self):
+        # TODO: Logic for Strength type UG328
+        return (self.carry/2, self.ps)
+
+    @hybrid_property
+    def run(self):
+        return self.spd * 5
+
+    @hybrid_property
+    def run_mph(self):
+        # 3600 is the number of feet / hour and 5280 is feet / mile
+        return float(self.spd * 3600) / 5280
+
     def __repr__(self):
         return '<Character %r %r>' % (self.first_name, self.last_name)
 
