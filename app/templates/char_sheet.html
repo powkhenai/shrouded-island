@@ -4,66 +4,146 @@
 {% block main_link %}<a href="#">Main</a>{% endblock %}
 {% block char_sheet %}
     <div class="row">
-	<div class="col-xs-12 col-md-8 well">
+	<div class="col-xs-12 col-md-12 well">
 	    <div class="row">
-		<div class="col-xs-12">
+		<div class="col-xs-8">
 		    <h2 id="char_name">{{ character.first_name }} {{ character.last_name }}</h2>
 		</div>
+		<div class="col-xs-4 col-md-4">
+		    {% if character.sdc == 0 %}
+			<b>MDC</b>: {{ character.hp }}
+		    {% else %}
+			<b>HP</b>: {{ character.hp }}  <b>SDC</b>: {{ character.sdc }}
+		    {% endif %}
+		    <div class="progress">
+			<div class="progress-bar progress-bar-success" style="width: 60%"></div>
+			<div class="progress-bar progress-bar-danger" style="width: 40%"></div>
+		</div>
+	    </div>
+	    <div class="row">
 		<div class="col-xs-12">
 		    <a role="button" class="btn btn-primary btn-xs" href="/character/{{ character.id }}/edit">Edit</a>
 		</div>
 	    </div>
 	    <div class="row">
-		<div class="col-xs-6 col-md-4">
+		<div class="col-xs-6 col-md-6">
 		    <h4> {{ character.race }} </h4>
 		</div>
-		<div class="col-xs-6 col-md-4">
+		<div class="col-xs-6 col-md-6">
 		    <h4> {{ character.occ }} </h4>
 		</div>
 	    </div>
-	    <div class="col-xs-6 col-md-6">
-		<b>Sex: </b> {% if character.sex == "f" %}Female{% elif character.sex == "m"%}Male{% endif %}
-		<br>
-		<b>Age: </b> {{ character.age }}
-		<br>
-		<b>Height: </b> {{ character.calc_height }}
-		<br>
-		<b>Weight: </b> {{ character.weight }} lbs
-		<br>
-		<!--
-		<b>Occupation: </b> {{ character.occupation }}
-		<br>
-		-->
-		<b>Alignment: </b> {{ character.align.name }} ({{ character.align.category }})
-		<button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#align-modal">
-		    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
-		</button>
+	    <div class="row">
+		<div class="col-xs-6 col-md-6">
+		    <b>Sex: </b> {% if character.sex == "f" %}Female{% elif character.sex == "m"%}Male{% endif %}
+		    <br>
+		    <b>Age: </b> {{ character.age }}
+		    <br>
+		    <b>Height: </b> {{ character.calc_height }}
+		    <br>
+		    <b>Weight: </b> {{ character.weight }} lbs
+		    <br>
+		    <b>Occupation: </b> {{ character.occupation }}
+		    <br>
+		    <b>Alignment: </b> {{ character.align.name }} ({{ character.align.category }})
+		    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#align-modal">
+			<span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+		    </button>
+		    <br>
+		    <b>Life Span: </b> {{ character.lifespan }} years
+		    <br>
+		    <b>Horror Factor: </b> {{ character.hf }} 
+		    <br>
+		    <b>Trust/Intimidate: </b> {{ character.trustint }} %
+		    <br>
+		    <b>Charm/Impress: </b> {{ character.charmpress }} %
+		</div>
+		<div class="col-xs-6 col-md-6">
+		    <b>Level:</b> {{ character.lvl }}
+		    <a role="button" class="btn btn-primary btn-xs" href="/character/{{ character.id }}/lvl/dn">
+			<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+		    </a>
+		    <a role="button" class="btn btn-primary btn-xs" href="/character/{{ character.id }}/lvl/up">
+			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+		    </a>
+		    <br>
+		    {% set stats = ['iq', 'me', 'ma', 'ps', 'pp', 'pe', 'pb', 'spd'] %}
+		    {% for stat in stats %}
+		    <b>{{ stat| upper }}:</b> {{ character[stat] }}
+		    <br>
+		    {% endfor %}
+		</div>
 	    </div>
-	    <div class="col-xs-6 col-md-6">
-		<b>Level:</b> {{ character.lvl }}
-		<a role="button" class="btn btn-primary btn-xs" href="/character/{{ character.id }}/lvl/dn">
-		    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-		</a>
-		<a role="button" class="btn btn-primary btn-xs" href="/character/{{ character.id }}/lvl/up">
-		    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-		</a>
-		<br>
-		{% set stats = ['iq', 'me', 'ma', 'ps', 'pp', 'pe', 'pb', 'spd'] %}
-		{% for stat in stats %}
-		<b>{{ stat| upper }}:</b> {{ character[stat] }}
-		<br>
-		{% endfor %}
-	    </div>
-	</div>
-	<div class="col-xs-6 col-md-4">
-	    {% if character.sdc == 0 %}
-		<b>MDC</b>: {{ character.hp }}
-	    {% else %}
-		<b>HP</b>: {{ character.hp }}  <b>SDC</b>: {{ character.sdc }}
-	    {% endif %}
-	    <div class="progress">
-		<div class="progress-bar progress-bar-success" style="width: 60%"></div>
-		<div class="progress-bar progress-bar-danger" style="width: 40%"></div>
+	    <br/>
+	    <div class="row">
+		<div class="col-xs-6 col-md-6">
+		    <h3>Saves</h3>
+		    <b>Vs. Spell Magic: </b> {{ character.sav_sm }}
+		    <br>
+		    <b>Vs. Ritual Magic: </b> {{ character.sav_rm }}
+		    <br>
+		    <b>Vs. Psionics: </b> {{ character.sav_psi }}
+		    <br>
+		    <b>Vs. Toxins/Poisions: </b> {{ character.sav_tp }}
+		    <br>
+		    <b>Vs. Harmful Drugs: </b> {{ character.sav_hd }}
+		    <br>
+		    <b>Vs. Insanity: </b> {{ character.sav_in }}
+		    <br>
+		    <b>Vs. Possession: </b> {{ character.sav_pos }}
+		    <br>
+		    <b>Vs. Horror Factor: </b> {{ character.sav_hf }}
+		    <br>
+		    <b>Vs. Coma/Death: </b> {{ character.sav_cd }}
+		    <br>
+		    <b>Vs. Pain: </b> {{ character.sav_pn }}
+		</div>
+		<div class="col-xs-6 col-md-6"> <!-- Combat Section -->
+		    <h3>Combat</h3>
+		    <h5>Hand to Hand Basic</h5>
+		    <div class="col-xs-6">
+			<b>Number Of Attacks: </b> {{ character.com_numatt }}
+			<br>
+			<b>Damage: </b> {{ character.com_dmg }}
+			<br>
+			<b>Parry: </b> {{ character.com_parry }}
+			<br>
+			<b>Roll: </b> {{ character.com_roll }}
+			<br>
+			<b>Punch: </b> {{ character.com_punch }}
+			<br>
+			<b>Kick: </b> {{ character.com_kick }}
+			<br>
+			<b>Knock Out: </b> {{ character.com_ko }}
+			<br>
+			<b>Critical: </b> {{ character.com_crit }}
+			<br>
+			<b>Death: </b> {{ character.com_death }}
+		    </div>
+		    <div class="col-xs-6">
+			<b>Initiative: </b> {{ character.com_init }}
+			<br>
+			<b>Strike/Disarm: </b> {{ character.com_sd }}
+			<br>
+			<b>Dodge: </b> {{ character.com_dodge }}
+			<br>
+			<b>Restrained Punch: </b> {{ character.com_rpunch }}
+			<br>
+			<b>Power Punch: </b> {{ character.com_ppunch }}
+			<br>
+			<b>Leap Kick: </b> {{ character.com_lkick }}
+			<br>
+			<b>Snap Kick: </b> {{ character.com_skick }}
+			<br>
+			<b>Flip: </b> {{ character.com_flip }}
+			<br>
+			<b>Leap: </b> {{ character.com_vleap }} ft. Vert {{ character.com_lleap }} ft. Lat
+		    </div>
+		</div><!-- End Combat Section -->
+	    </div><!-- End Saves/Combat Row -->
+	    <div class="row"><!-- Movement Row -->
+		{% include "char_parts/char_movement.html" %}
+	    </div><!-- End Movement Row -->
 	</div>
     </div>
 
